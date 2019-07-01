@@ -1,0 +1,3 @@
+name: GoldNationTerrains
+main: com.github.chicoferreira.goldnation.terrains.Terrains
+version: ${version}
