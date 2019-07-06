@@ -37,4 +37,11 @@ public class User {
         }
         return player;
     }
+
+    public void sendMessage(String message, Object... objects) {
+        Player player = getPlayer();
+        if (player != null) {
+            player.sendMessage(String.format(message, objects));
+        }
+    }
 }
