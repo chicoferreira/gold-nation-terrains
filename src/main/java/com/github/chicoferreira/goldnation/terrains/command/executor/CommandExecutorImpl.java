@@ -7,11 +7,14 @@ import com.github.chicoferreira.goldnation.terrains.command.parameter.Parameter;
 import com.github.chicoferreira.goldnation.terrains.command.variable.parse.ParseResult;
 import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
 import com.github.chicoferreira.goldnation.terrains.user.User;
+import com.google.common.collect.Iterables;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CommandExecutorImpl implements CommandExecutor {
 
@@ -25,6 +28,7 @@ public class CommandExecutorImpl implements CommandExecutor {
     public boolean execute(Command command, Player player, String[] args) {
         User user = plugin.getUserStorage().get(player.getName()).join();
 
+        List<Command> commandList = new ArrayList<>(Collections.singletonList(command));
 
         int index = 0;
         while (index < args.length) {
@@ -32,7 +36,7 @@ public class CommandExecutorImpl implements CommandExecutor {
 
             Command subcommand = command.getSubcommand(arg);
             if (subcommand != null) {
-                command = subcommand;
+                commandList.add(command = subcommand);
             } else {
                 break;
             }
@@ -63,7 +67,22 @@ public class CommandExecutorImpl implements CommandExecutor {
             }
         }
 
-        return command.execute(user, CommandContexts.with(commandContexts));
+        if (commandContexts.size() >= getMinimumArguments(command)) {
+            return command.execute(user, CommandContexts.with(commandContexts));
+        }
+        user.sendMessage(plugin.getConstants().commandUsage.replace("<usage>", buildCommandUsage(commandList)));
+        return false;
+    }
+
+    private String buildCommandUsage(List<Command> commands) {
+        return "/" +
+                commands.stream()
+                        .map(Command::getName)
+                        .collect(Collectors.joining(" "))
+                + " " +
+                Arrays.stream(Iterables.getLast(commands).getParameters())
+                        .map(Parameter::stringValue)
+                        .collect(Collectors.joining(" "));
     }
 
     private int getMinimumArguments(Command command) {

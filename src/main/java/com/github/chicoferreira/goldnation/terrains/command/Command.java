@@ -10,6 +10,8 @@ public interface Command {
 
     String getName();
 
+    String getDescription();
+
     Parameter[] getParameters();
 
     List<Command> getSubcommands();

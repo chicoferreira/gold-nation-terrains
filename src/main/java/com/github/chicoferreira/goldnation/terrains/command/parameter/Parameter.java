@@ -33,4 +33,12 @@ public class Parameter<T> {
     public boolean isMandatory() {
         return mandatory;
     }
+
+    public String stringValue() {
+        char leftChar = mandatory ? '<' : '(';
+        char rightChar = mandatory ? '>' : ')';
+
+        return leftChar + name + rightChar;
+    }
+
 }

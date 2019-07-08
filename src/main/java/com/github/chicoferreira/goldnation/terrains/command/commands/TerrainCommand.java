@@ -7,7 +7,7 @@ import com.github.chicoferreira.goldnation.terrains.user.User;
 public class TerrainCommand extends AbstractCommand {
 
     public TerrainCommand() {
-        super("terrain");
+        super("terrain", "Comando sobre terrenos.");
         setSubcommands(new BuyCommand());
     }
 

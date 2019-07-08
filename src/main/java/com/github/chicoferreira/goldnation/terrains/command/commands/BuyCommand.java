@@ -9,7 +9,7 @@ import com.github.chicoferreira.goldnation.terrains.user.User;
 public class BuyCommand extends AbstractCommand {
 
     public BuyCommand() {
-        super("buy");
+        super("buy", "Compra um terreno.");
         setParameters(Parameter.ofMandatory("tamanho", VariableTypes.INTEGER));
     }
 

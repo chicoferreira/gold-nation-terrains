@@ -9,11 +9,13 @@ import java.util.List;
 public abstract class AbstractCommand implements Command {
 
     private final String name;
+    private final String description;
     private List<Command> subcommands;
     private Parameter[] parameters;
 
-    public AbstractCommand(String name) {
+    public AbstractCommand(String name, String description) {
         this.name = name;
+        this.description = description;
         this.parameters = new Parameter[0];
         this.subcommands = new ArrayList<>();
     }
@@ -21,6 +23,11 @@ public abstract class AbstractCommand implements Command {
     @Override
     public final String getName() {
         return name;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     @Override
@@ -44,4 +51,5 @@ public abstract class AbstractCommand implements Command {
     public void setSubcommands(Command... subcommands) {
         this.setSubcommands(Arrays.asList(subcommands));
     }
+
 }
