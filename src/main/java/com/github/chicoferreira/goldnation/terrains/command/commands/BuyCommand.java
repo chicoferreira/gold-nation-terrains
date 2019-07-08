@@ -9,11 +9,13 @@ import com.github.chicoferreira.goldnation.terrains.user.User;
 public class BuyCommand extends AbstractCommand {
 
     public BuyCommand() {
-        super(Parameter.ofMandatory("tamanho", VariableTypes.INTEGER));
+        super("buy");
+        setParameters(Parameter.ofMandatory("tamanho", VariableTypes.INTEGER));
     }
 
     @Override
-    public void execute(User user, CommandContexts contexts) {
+    public boolean execute(User user, CommandContexts contexts) {
         int size = (int) contexts.get("tamanho").getValue();
+        return true;
     }
 }
