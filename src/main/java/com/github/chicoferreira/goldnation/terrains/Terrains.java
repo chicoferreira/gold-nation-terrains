@@ -1,5 +1,6 @@
 package com.github.chicoferreira.goldnation.terrains;
 
+import com.github.chicoferreira.goldnation.terrains.command.commands.TerrainCommand;
 import com.github.chicoferreira.goldnation.terrains.command.executor.CommandExecutor;
 import com.github.chicoferreira.goldnation.terrains.command.executor.CommandExecutorImpl;
 import com.github.chicoferreira.goldnation.terrains.command.recorder.BukkitCommandRecorder;
@@ -8,6 +9,7 @@ import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPluginBukkit;
 import com.github.chicoferreira.goldnation.terrains.scheduler.BukkitScheduler;
 import com.github.chicoferreira.goldnation.terrains.scheduler.Scheduler;
 import com.github.chicoferreira.goldnation.terrains.user.UserStorage;
+import com.github.chicoferreira.goldnation.terrains.user.listener.UserListener;
 
 public class Terrains extends TerrainsPluginBukkit {
 
@@ -21,10 +23,14 @@ public class Terrains extends TerrainsPluginBukkit {
     public void enable() {
         this.scheduler = new BukkitScheduler(this);
 
-        this.userStorage = new UserStorage(this.getScheduler().async());
-        this.commandExecutor = new CommandExecutorImpl();
+        this.userStorage = new UserStorage(this);
+        registerListener(new UserListener(this));
+
+        this.commandExecutor = new CommandExecutorImpl(this);
         this.commandRecorder = new BukkitCommandRecorder(this);
         this.constants = new Constants();
+
+        registerCommand(new TerrainCommand());
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.github.chicoferreira.goldnation.terrains.command;
 import com.github.chicoferreira.goldnation.terrains.command.parameter.Parameter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class AbstractCommand implements Command {
@@ -38,5 +39,9 @@ public abstract class AbstractCommand implements Command {
 
     public void setSubcommands(List<Command> subcommands) {
         (this.subcommands = new ArrayList<>()).addAll(subcommands);
+    }
+
+    public void setSubcommands(Command... subcommands) {
+        this.setSubcommands(Arrays.asList(subcommands));
     }
 }

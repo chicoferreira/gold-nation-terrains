@@ -10,7 +10,8 @@ public class IntVariableType implements VariableType<Integer> {
     @Override
     public ParseResult<Integer> parse(String string) {
         try {
-            return ParseResult.ofSuccess(Integer.getInteger(string));
+            int integer = Integer.parseInt(string);
+            return ParseResult.ofSuccess(integer);
         } catch (NumberFormatException e) {
             return ParseResult.ofFailure(user -> user.sendMessage(FAILURE_MESSAGE, string));
         }

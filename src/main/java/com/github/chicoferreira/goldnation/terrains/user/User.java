@@ -33,9 +33,13 @@ public class User {
 
     public Player getPlayer() {
         if (this.player == null || !this.player.isOnline()) {
-            this.player = Bukkit.getPlayerExact(name);
+            updatePlayer();
         }
         return player;
+    }
+
+    public void updatePlayer() {
+        this.player = Bukkit.getPlayerExact(name);
     }
 
     public void sendMessage(String message, Object... objects) {
@@ -44,4 +48,5 @@ public class User {
             player.sendMessage(String.format(message, objects));
         }
     }
+
 }

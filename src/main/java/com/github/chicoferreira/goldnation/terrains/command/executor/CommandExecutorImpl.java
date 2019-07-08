@@ -17,19 +17,22 @@ public class CommandExecutorImpl implements CommandExecutor {
 
     private TerrainsPlugin plugin;
 
+    public CommandExecutorImpl(TerrainsPlugin plugin) {
+        this.plugin = plugin;
+    }
+
     @Override
     public boolean execute(Command command, Player player, String[] args) {
-        User user = plugin.getUserStorage().get(player.getName());
+        User user = plugin.getUserStorage().get(player.getName()).join();
 
-        Command commandToExecute = command;
 
         int index = 0;
         while (index < args.length) {
             String arg = args[index];
 
-            Command subcommand = commandToExecute.getSubcommand(arg);
+            Command subcommand = command.getSubcommand(arg);
             if (subcommand != null) {
-                commandToExecute = subcommand;
+                command = subcommand;
             } else {
                 break;
             }
@@ -41,29 +44,26 @@ public class CommandExecutorImpl implements CommandExecutor {
 
         List<CommandContext> commandContexts = new ArrayList<>();
 
-        if (args.length >= getMinimumArguments(commandToExecute)) {
+        Parameter[] parameters = command.getParameters();
+        for (int i = 0; i < parameters.length; i++) {
+            Parameter parameter = parameters[i];
 
-            Parameter[] parameters = command.getParameters();
-            for (int i = 0; i < parameters.length; i++) {
-                Parameter parameter = parameters[i];
+            if (args.length > i) {
+                String arg = args[i];
 
-                if (args.length >= i) {
-                    String arg = args[i];
-
-                    ParseResult parse = parameter.getType().parse(arg);
-                    if (parse.wasSuccessful()) {
-                        commandContexts.add(new CommandContext(parse.get(), parameter.getName()));
-                    } else {
-                        parse.runFallback(user);
-                        return false;
-                    }
+                ParseResult parse = parameter.getType().parse(arg);
+                if (parse.wasSuccessful()) {
+                    commandContexts.add(new CommandContext(parse.get(), parameter.getName()));
                 } else {
-                    break;
+                    parse.runFallback(user);
+                    return false;
                 }
+            } else {
+                break;
             }
         }
 
-        return commandToExecute.execute(user, CommandContexts.with(commandContexts));
+        return command.execute(user, CommandContexts.with(commandContexts));
     }
 
     private int getMinimumArguments(Command command) {

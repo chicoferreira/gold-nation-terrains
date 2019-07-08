@@ -6,6 +6,8 @@ import com.github.chicoferreira.goldnation.terrains.command.recorder.CommandReco
 import com.github.chicoferreira.goldnation.terrains.scheduler.Scheduler;
 import com.github.chicoferreira.goldnation.terrains.user.UserStorage;
 
+import java.util.logging.Logger;
+
 public interface TerrainsPlugin {
 
     String getName();
@@ -23,5 +25,7 @@ public interface TerrainsPlugin {
     CommandRecorder getCommandRecorder();
 
     Constants getConstants();
+
+    Logger getLogger();
 
 }

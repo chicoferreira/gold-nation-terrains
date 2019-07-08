@@ -1,12 +1,14 @@
 package com.github.chicoferreira.goldnation.terrains.command.variable.parse;
 
 import com.github.chicoferreira.goldnation.terrains.user.User;
+import org.apache.commons.lang.Validate;
 
 import java.util.function.Consumer;
 
 public interface ParseResult<T> {
 
     static <T> ParseResult<T> ofSuccess(T value) {
+        Validate.notNull(value, "Success parse result cannot be null");
         return new ParseResult<T>() {
             @Override
             public T get() {

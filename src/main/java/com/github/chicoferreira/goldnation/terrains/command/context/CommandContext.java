@@ -6,6 +6,7 @@ public class CommandContext<T> {
     private T value;
 
     public CommandContext(T value, String name) {
+        this.name = name;
         this.value = value;
     }
 
@@ -19,5 +20,13 @@ public class CommandContext<T> {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "name='" + name + '\'' +
+                ", value=" + value +
+                '}';
     }
 }
