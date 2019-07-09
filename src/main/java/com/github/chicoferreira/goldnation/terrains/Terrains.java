@@ -30,7 +30,7 @@ public class Terrains extends TerrainsPluginBukkit {
         this.commandRecorder = new BukkitCommandRecorder(this);
         this.constants = new Constants();
 
-        registerCommand(new TerrainCommand());
+        registerCommand(new TerrainCommand(this));
     }
 
     @Override

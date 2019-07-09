@@ -1,18 +1,13 @@
 package com.github.chicoferreira.goldnation.terrains.command.commands;
 
-import com.github.chicoferreira.goldnation.terrains.command.AbstractCommand;
-import com.github.chicoferreira.goldnation.terrains.command.context.CommandContexts;
-import com.github.chicoferreira.goldnation.terrains.user.User;
+import com.github.chicoferreira.goldnation.terrains.command.HelpAbstractCommand;
+import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
 
-public class TerrainCommand extends AbstractCommand {
+public class TerrainCommand extends HelpAbstractCommand {
 
-    public TerrainCommand() {
-        super("terrain", "Comando sobre terrenos.");
-        setSubcommands(new BuyCommand());
+    public TerrainCommand(TerrainsPlugin plugin) {
+        super(plugin, "terrain", "Comando sobre terrenos.");
+        setSubcommands(new BuyCommand(getPlugin()));
     }
 
-    @Override
-    public boolean execute(User user, CommandContexts commandContexts) {
-        return false;
-    }
 }

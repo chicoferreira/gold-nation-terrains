@@ -9,6 +9,7 @@ public class Constants {
     public final String commandNotAPlayer = "§cApenas jogadores podem executar esse comando.";
 
     public final String commandUsage = "§cPor favor, use: <usage>.";
-    public final List<String> commandHelp = Arrays.asList("", "    §6§lAJUDA SOBRE <commandName>", "", "<usage>", "");
+    public final List<String> commandHelp = Arrays.asList("", "    §6§lAJUDA SOBRE <commandName>", "", "<commands>", "");
     public final String commandHelpSyntax = "  §e- §f/<command> §6- §e<description>";
+    public final String helpCommandName = "ajuda";
 }

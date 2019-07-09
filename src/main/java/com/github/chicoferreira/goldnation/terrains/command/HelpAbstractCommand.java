@@ -6,18 +6,17 @@ import com.github.chicoferreira.goldnation.terrains.user.User;
 
 public class HelpAbstractCommand extends AbstractCommand {
 
-    private TerrainsPlugin plugin;
-
     public HelpAbstractCommand(TerrainsPlugin plugin, String name, String description) {
-        super(name, description);
-        this.plugin = plugin;
+        super(plugin, name, description);
     }
 
     @Override
     public boolean execute(User user, CommandContexts commandContexts) {
-        for (String s : plugin.getConstants().commandHelp) {
-            user.sendMessage(s.replace("<commandName>", this.getName()));
+        Command help = this.getSubcommand(getPlugin().getConstants().helpCommandName);
+        if (help != null) {
+            return help.execute(user, commandContexts);
         }
         return true;
     }
+
 }

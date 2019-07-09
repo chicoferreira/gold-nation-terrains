@@ -14,6 +14,12 @@ public interface Command {
 
     Parameter[] getParameters();
 
+    boolean hasParent();
+
+    Command getParent();
+
+    void setParent(Command command);
+
     List<Command> getSubcommands();
 
     default Command getSubcommand(String name) {

@@ -4,12 +4,13 @@ import com.github.chicoferreira.goldnation.terrains.command.AbstractCommand;
 import com.github.chicoferreira.goldnation.terrains.command.context.CommandContexts;
 import com.github.chicoferreira.goldnation.terrains.command.parameter.Parameter;
 import com.github.chicoferreira.goldnation.terrains.command.variable.types.VariableTypes;
+import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
 import com.github.chicoferreira.goldnation.terrains.user.User;
 
 public class BuyCommand extends AbstractCommand {
 
-    public BuyCommand() {
-        super("buy", "Compra um terreno.");
+    public BuyCommand(TerrainsPlugin plugin) {
+        super(plugin, "buy", "Compra um terreno.");
         setParameters(Parameter.ofMandatory("tamanho", VariableTypes.INTEGER));
     }
 
