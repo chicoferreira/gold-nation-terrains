@@ -1,15 +1,15 @@
-package com.github.chicoferreira.goldnation.terrains.command.variable.parse;
+package com.github.chicoferreira.goldnation.terrains.util;
 
 import com.github.chicoferreira.goldnation.terrains.user.User;
 import org.apache.commons.lang.Validate;
 
 import java.util.function.Consumer;
 
-public interface ParseResult<T> {
+public interface Result<T> {
 
-    static <T> ParseResult<T> ofSuccess(T value) {
+    static <T> Result<T> ofSuccess(T value) {
         Validate.notNull(value, "Success parse result cannot be null");
-        return new ParseResult<T>() {
+        return new Result<T>() {
             @Override
             public T get() {
                 return value;
@@ -27,8 +27,8 @@ public interface ParseResult<T> {
         };
     }
 
-    static <T> ParseResult<T> ofFailure(Consumer<User> consumer) {
-        return new ParseResult<T>() {
+    static <T> Result<T> ofFailure(Consumer<User> consumer) {
+        return new Result<T>() {
             @Override
             public T get() {
                 throw new NullPointerException();

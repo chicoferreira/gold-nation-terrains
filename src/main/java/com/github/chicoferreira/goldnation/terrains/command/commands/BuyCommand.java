@@ -18,7 +18,7 @@ public class BuyCommand extends AbstractCommand {
     public boolean execute(User user, CommandContexts contexts) {
         int size = (int) contexts.get("tamanho").getValue();
 
-        user.sendMessage("size: " + size);
-        return true;
+
+        return getPlugin().getTerrainController().buy(user, user.getPlayer().getLocation(), size);
     }
 }

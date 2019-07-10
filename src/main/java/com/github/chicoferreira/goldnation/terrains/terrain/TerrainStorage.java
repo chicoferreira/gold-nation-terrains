@@ -1,19 +1,52 @@
 package com.github.chicoferreira.goldnation.terrains.terrain;
 
-import com.github.chicoferreira.goldnation.terrains.storage.AbstractAsyncMapStorage;
-import com.github.chicoferreira.goldnation.terrains.user.User;
-import org.apache.commons.lang.NotImplementedException;
+import com.github.chicoferreira.goldnation.terrains.util.Area2D;
+import com.github.chicoferreira.goldnation.terrains.util.Position2D;
+import org.bukkit.Location;
 
-import java.util.concurrent.Executor;
+import java.util.*;
 
-public class TerrainStorage extends AbstractAsyncMapStorage<Terrain, User> {
+public class TerrainStorage {
 
-    public TerrainStorage(Executor executor) {
-        super(executor);
+    private Map<Position2D, Terrain> map;
+
+    public TerrainStorage() {
+        this.map = new TreeMap<>();
     }
 
-    @Override
-    public void save(Terrain type) {
-        throw new NotImplementedException();
+    public void create(Terrain terrain) {
+        for (Position2D position2D : terrain.getArea()) {
+            map.put(position2D, terrain);
+        }
     }
+
+    public void remove(Terrain terrain) {
+        Collection<Terrain> values = map.values();
+        while (values.contains(terrain)) {
+            values.remove(terrain);
+        }
+    }
+
+    public Terrain get(Position2D position2D) {
+        return map.get(position2D);
+    }
+
+    public boolean contains(Position2D position2D) {
+        return map.containsKey(position2D);
+    }
+
+    public Set<Terrain> getNearbyTerrains(Location location, int radius) {
+        Set<Terrain> terrains = new HashSet<>();
+
+        Area2D area2D = new Area2D(location.getBlockX(), location.getBlockZ(), radius);
+        for (Position2D position2D : area2D) {
+            Terrain terrain = get(position2D);
+            if (terrain != null) {
+                terrains.add(terrain);
+            }
+        }
+
+        return terrains;
+    }
+
 }

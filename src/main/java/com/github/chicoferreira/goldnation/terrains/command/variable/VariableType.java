@@ -1,9 +1,9 @@
 package com.github.chicoferreira.goldnation.terrains.command.variable;
 
-import com.github.chicoferreira.goldnation.terrains.command.variable.parse.ParseResult;
+import com.github.chicoferreira.goldnation.terrains.util.Result;
 
 public interface VariableType<T> {
 
-    ParseResult<T> parse(String string);
+    Result<T> parse(String string);
 
 }

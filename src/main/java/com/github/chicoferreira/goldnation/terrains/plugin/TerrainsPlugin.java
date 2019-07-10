@@ -4,6 +4,7 @@ import com.github.chicoferreira.goldnation.terrains.Constants;
 import com.github.chicoferreira.goldnation.terrains.command.executor.CommandExecutor;
 import com.github.chicoferreira.goldnation.terrains.command.recorder.CommandRecorder;
 import com.github.chicoferreira.goldnation.terrains.scheduler.Scheduler;
+import com.github.chicoferreira.goldnation.terrains.terrain.controller.TerrainController;
 import com.github.chicoferreira.goldnation.terrains.user.UserStorage;
 
 import java.util.logging.Logger;
@@ -28,4 +29,5 @@ public interface TerrainsPlugin {
 
     Logger getLogger();
 
+    TerrainController getTerrainController();
 }

@@ -4,9 +4,9 @@ import com.github.chicoferreira.goldnation.terrains.command.Command;
 import com.github.chicoferreira.goldnation.terrains.command.context.CommandContext;
 import com.github.chicoferreira.goldnation.terrains.command.context.CommandContexts;
 import com.github.chicoferreira.goldnation.terrains.command.parameter.Parameter;
-import com.github.chicoferreira.goldnation.terrains.command.variable.parse.ParseResult;
 import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
 import com.github.chicoferreira.goldnation.terrains.user.User;
+import com.github.chicoferreira.goldnation.terrains.util.Result;
 import com.google.common.collect.Iterables;
 import org.bukkit.entity.Player;
 
@@ -55,7 +55,7 @@ public class CommandExecutorImpl implements CommandExecutor {
             if (args.length > i) {
                 String arg = args[i];
 
-                ParseResult parse = parameter.getType().parse(arg);
+                Result parse = parameter.getType().parse(arg);
                 if (parse.wasSuccessful()) {
                     commandContexts.add(new CommandContext(parse.get(), parameter.getName()));
                 } else {

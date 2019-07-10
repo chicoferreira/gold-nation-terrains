@@ -12,4 +12,7 @@ public class Constants {
     public final List<String> commandHelp = Arrays.asList("", "    §6§lAJUDA SOBRE <commandName>", "", "<commands>", "");
     public final String commandHelpSyntax = "  §e- §f/<command> §6- §e<description>";
     public final String helpCommandName = "ajuda";
+
+    public final int minTerrainSize = 10;
+    public final int maxTerrainSize = 50;
 }
