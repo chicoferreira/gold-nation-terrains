@@ -7,7 +7,7 @@ public class TerrainCommand extends HelpAbstractCommand {
 
     public TerrainCommand(TerrainsPlugin plugin) {
         super(plugin, "terrain", "Comando sobre terrenos.");
-        setSubcommands(new BuyCommand(getPlugin()));
+        setSubcommands(new BuyCommand(getPlugin()), new DebugCommand(getPlugin()));
     }
 
 }

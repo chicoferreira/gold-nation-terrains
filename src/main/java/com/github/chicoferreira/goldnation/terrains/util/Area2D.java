@@ -5,7 +5,9 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class Area2D implements Iterable<Position2D> {
 
@@ -17,14 +19,18 @@ public class Area2D implements Iterable<Position2D> {
     private int endZ;
 
     public Area2D(int startX, int endX, int startZ, int endZ) {
-        this.startX = Math.max(startX, endX);
-        this.endX = Math.min(startX, endX);
-        this.startZ = Math.max(startZ, endZ);
-        this.endZ = Math.min(startZ, endZ);
+        this.startX = Math.min(startX, endX);
+        this.endX = Math.max(startX, endX);
+        this.startZ = Math.min(startZ, endZ);
+        this.endZ = Math.max(startZ, endZ);
     }
 
     public Area2D(int blockX, int blockZ, int radius) {
-        this(blockX + radius, blockX - radius, blockZ + radius, blockZ - radius);
+        this(
+                (int) (blockX + Math.ceil(radius / 2D)),
+                blockX - Math.floorDiv(radius, 2) + 1,
+                (int) (blockZ + Math.ceil(radius / 2D)),
+                blockZ - Math.floorDiv(radius, 2) + 1);
     }
 
     public int getSizeX() {
@@ -55,10 +61,48 @@ public class Area2D implements Iterable<Position2D> {
         return isInside(user.getPlayer());
     }
 
+    public List<Position2D> getCorners() {
+        List<Position2D> result = new ArrayList<>();
+
+        int sizeZ = Math.abs(endZ - startZ);
+
+        result.add(new Position2D(startX, startZ));
+        result.add(new Position2D(startX, startZ + sizeZ));
+        result.add(new Position2D(endX, endZ));
+        result.add(new Position2D(endX, endZ - sizeZ));
+
+        return result;
+    }
+
     @Nonnull
     @Override
     public Iterator<Position2D> iterator() {
         return new AreaIterator(startX, startZ, endX, endZ);
+    }
+
+    public List<Position2D> getBorders() {
+        List<Position2D> result = new ArrayList<>();
+
+        for (Position2D position2D : this) {
+            if (position2D.getX() == startX ||
+                    position2D.getX() == endX ||
+                    position2D.getZ() == startZ ||
+                    position2D.getZ() == endZ) {
+                result.add(position2D);
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Area2D{" +
+                "startX=" + startX +
+                ", endX=" + endX +
+                ", startZ=" + startZ +
+                ", endZ=" + endZ +
+                '}';
     }
 
     public class AreaIterator implements Iterator<Position2D> {

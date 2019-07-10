@@ -28,11 +28,10 @@ public class Position2D implements Comparable<Position2D> {
     }
 
     @Override
-    public int compareTo(Position2D position2D) {
-        int coordinatesSum = this.getX() + this.getZ();
-        int otherCoordinatesSum = position2D.getX() + position2D.getZ();
-
-        return coordinatesSum > otherCoordinatesSum ? 1 : -1;
+    public int compareTo(Position2D position2D) { // FIXME:
+        int coordinatesSum = this.getX() >> this.getZ();
+        int otherCoordinatesSum = position2D.getX() >> position2D.getZ();
+        return Integer.compare(coordinatesSum, otherCoordinatesSum);
     }
 
     @Override
@@ -47,5 +46,13 @@ public class Position2D implements Comparable<Position2D> {
     @Override
     public int hashCode() {
         return Objects.hash(x, z);
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "x=" + x +
+                ", z=" + z +
+                '}';
     }
 }

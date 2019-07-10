@@ -49,4 +49,7 @@ public class User {
         }
     }
 
+    public void addTerrain(Terrain terrain) {
+        this.terrainList.add(terrain);
+    }
 }

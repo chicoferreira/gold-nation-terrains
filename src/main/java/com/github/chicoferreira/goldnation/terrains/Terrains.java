@@ -1,5 +1,6 @@
 package com.github.chicoferreira.goldnation.terrains;
 
+import com.github.chicoferreira.goldnation.terrains.bank.Bank;
 import com.github.chicoferreira.goldnation.terrains.command.commands.TerrainCommand;
 import com.github.chicoferreira.goldnation.terrains.command.executor.CommandExecutor;
 import com.github.chicoferreira.goldnation.terrains.command.executor.CommandExecutorImpl;
@@ -8,8 +9,10 @@ import com.github.chicoferreira.goldnation.terrains.command.recorder.CommandReco
 import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPluginBukkit;
 import com.github.chicoferreira.goldnation.terrains.scheduler.BukkitScheduler;
 import com.github.chicoferreira.goldnation.terrains.scheduler.Scheduler;
+import com.github.chicoferreira.goldnation.terrains.terrain.TerrainStorage;
 import com.github.chicoferreira.goldnation.terrains.terrain.controller.TerrainController;
 import com.github.chicoferreira.goldnation.terrains.terrain.controller.TerrainControllerImpl;
+import com.github.chicoferreira.goldnation.terrains.user.User;
 import com.github.chicoferreira.goldnation.terrains.user.UserStorage;
 import com.github.chicoferreira.goldnation.terrains.user.listener.UserListener;
 
@@ -21,7 +24,10 @@ public class Terrains extends TerrainsPluginBukkit {
     private CommandRecorder commandRecorder;
     private Constants constants;
 
+    private TerrainStorage terrainStorage;
     private TerrainController terrainController;
+
+    private Bank bank;
 
     @Override
     public void enable() {
@@ -30,7 +36,27 @@ public class Terrains extends TerrainsPluginBukkit {
         this.userStorage = new UserStorage(this);
         registerListener(new UserListener(this));
 
-        this.terrainController = new TerrainControllerImpl();
+        // TODO: add vault implementation
+
+        this.bank = new Bank() {
+            @Override
+            public double get(User user) {
+                return Double.MAX_VALUE;
+            }
+
+            @Override
+            public boolean add(User user, double amount) {
+                return true;
+            }
+
+            @Override
+            public boolean remove(User user, double amount) {
+                return true;
+            }
+        };
+
+        this.terrainStorage = new TerrainStorage();
+        this.terrainController = new TerrainControllerImpl(this);
 
         this.commandExecutor = new CommandExecutorImpl(this);
         this.commandRecorder = new BukkitCommandRecorder(this);
@@ -69,7 +95,17 @@ public class Terrains extends TerrainsPluginBukkit {
     }
 
     @Override
+    public TerrainStorage getTerrainStorage() {
+        return terrainStorage;
+    }
+
+    @Override
     public TerrainController getTerrainController() {
         return terrainController;
+    }
+
+    @Override
+    public Bank getBank() {
+        return bank;
     }
 }

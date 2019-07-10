@@ -13,6 +13,16 @@ public class Constants {
     public final String commandHelpSyntax = "  §e- §f/<command> §6- §e<description>";
     public final String helpCommandName = "ajuda";
 
+    public final String commandErrorOccured = "§cOcorreu um erro ao tentar fazer essa operação. Por favor, tente novamente.";
+    public final String commandCouldntModifyMoney = "§cOcorreu um erro ao tentar modificar o seu dinheiro. Por favor, tente novamente.";
+
     public final int minTerrainSize = 10;
     public final int maxTerrainSize = 50;
+    public final double terrainPricePerBlock = 50.D;
+
+    public final String commandBuySizeLowerThanMin = "§cO tamanho do terreno tem que exceder <min>.".replace("<min>", Integer.toString(minTerrainSize));
+    public final String commandBuySizeHigherThanMax = "§cO tamanho do terreno não pode exceder <max>.".replace("<max>", Integer.toString(minTerrainSize));
+    public final String commandBuyNotEnoughMoney = "§cVocê precisa de <price> para comprar um terreno de <size>x<size>.";
+    public final String commandBuyNearbyTerrains = "§cExistem terrenos por perto.";
+    public final String commandBuySuccessful = "§aVocê comprou com sucesso um terreno §f<size>x<size> §apor §f<price> §acoins.";
 }

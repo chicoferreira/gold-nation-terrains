@@ -5,9 +5,11 @@ import org.bukkit.Location;
 
 public interface TerrainController {
 
-    boolean buy(User user, Location location, int size);
+    boolean acquire(User user, Location location, int size);
 
     boolean hasNearbyTerrains(Location location, int radius);
+
+    double calculatePrice(int radius);
 
 
 }

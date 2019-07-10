@@ -4,7 +4,9 @@ import com.github.chicoferreira.goldnation.terrains.util.Area2D;
 import com.github.chicoferreira.goldnation.terrains.util.Position2D;
 import org.bukkit.Location;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class TerrainStorage {
 
@@ -35,18 +37,18 @@ public class TerrainStorage {
         return map.containsKey(position2D);
     }
 
-    public Set<Terrain> getNearbyTerrains(Location location, int radius) {
-        Set<Terrain> terrains = new HashSet<>();
-
+    public boolean hasNearbyTerrains(Location location, int radius) {
         Area2D area2D = new Area2D(location.getBlockX(), location.getBlockZ(), radius);
         for (Position2D position2D : area2D) {
             Terrain terrain = get(position2D);
             if (terrain != null) {
-                terrains.add(terrain);
+                return true;
             }
         }
-
-        return terrains;
+        return false;
     }
 
+    public Map<Position2D, Terrain> getMap() {
+        return map;
+    }
 }
