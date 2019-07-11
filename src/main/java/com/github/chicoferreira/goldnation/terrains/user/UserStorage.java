@@ -2,13 +2,14 @@ package com.github.chicoferreira.goldnation.terrains.user;
 
 import com.github.chicoferreira.goldnation.terrains.database.Dao;
 import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
+import com.github.chicoferreira.goldnation.terrains.terrain.Terrain;
 import com.github.chicoferreira.goldnation.terrains.user.database.UserMapper;
 import com.github.chicoferreira.goldnation.terrains.user.database.UserPojo;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
 
 public class UserStorage {
 
@@ -23,7 +24,7 @@ public class UserStorage {
     }
 
     public CompletableFuture<User> get(String userName) {
-        return runAsync(() -> {
+        return plugin.getScheduler().makeAsync(() -> {
             User user = map.get(userName);
 
             if (user == null) {
@@ -44,15 +45,33 @@ public class UserStorage {
     }
 
     public void save(User user) {
-        runAsync(() -> userDao.saveEntity(user));
+        plugin.getScheduler().makeAsync(() -> userDao.saveEntity(user));
     }
 
-    public <T> CompletableFuture<T> runAsync(Supplier<T> supplier) {
-        return CompletableFuture.supplyAsync(supplier, plugin.getScheduler().async());
+    public void addTerrain(User user, Terrain terrain) {
+        user.getTerrainList().add(terrain.getUuid());
+        this.save(user);
     }
 
-    public void runAsync(Runnable runnable) {
-        CompletableFuture.runAsync(runnable, plugin.getScheduler().async());
+    public void addTerrain(String owner, Terrain terrain) {
+        this.addTerrain(get(owner).join(), terrain);
+    }
+
+    public void removeTerrain(User user, Terrain terrain) {
+        user.getTerrainList().remove(terrain.getUuid());
+        this.save(user);
+    }
+
+    public void removeTerrain(String owner, Terrain terrain) {
+        this.removeTerrain(get(owner).join(), terrain);
+    }
+
+    public int saveAllLoaded() {
+        Collection<User> values = this.map.values();
+        for (User value : values) {
+            userDao.saveEntity(value);
+        }
+        return values.size();
     }
 
 }

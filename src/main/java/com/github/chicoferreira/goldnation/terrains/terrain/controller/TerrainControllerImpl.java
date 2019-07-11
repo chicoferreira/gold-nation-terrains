@@ -29,8 +29,7 @@ public class TerrainControllerImpl implements TerrainController {
         Terrain terrain = new Terrain(UUID.randomUUID(), user.getName(), size, area2D, location, false, Lists.newArrayList());
 
         if (!hasNearbyTerrains(location, size)) {
-            plugin.getTerrainStorage().create(terrain);
-            user.addTerrain(terrain);
+            create(terrain);
             placeWalls(terrain);
             return true;
         }
@@ -46,6 +45,18 @@ public class TerrainControllerImpl implements TerrainController {
     @Override
     public double calculatePrice(int radius) {
         return plugin.getConstants().terrainPricePerBlock * radius * radius;
+    }
+
+    @Override
+    public void create(Terrain terrain) {
+        plugin.getTerrainStorage().create(terrain);
+        plugin.getUserStorage().addTerrain(terrain.getOwner(), terrain);
+    }
+
+    @Override
+    public void remove(Terrain terrain) {
+        plugin.getTerrainStorage().remove(terrain);
+        plugin.getUserStorage().removeTerrain(terrain.getOwner(), terrain);
     }
 
     private void placeWalls(Terrain terrain) {

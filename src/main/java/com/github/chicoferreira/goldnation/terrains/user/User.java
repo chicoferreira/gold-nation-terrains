@@ -1,6 +1,5 @@
 package com.github.chicoferreira.goldnation.terrains.user;
 
-import com.github.chicoferreira.goldnation.terrains.terrain.Terrain;
 import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -48,9 +47,5 @@ public class User {
         if (player != null) {
             player.sendMessage(String.format(message, objects));
         }
-    }
-
-    public void addTerrain(Terrain terrain) {
-        this.terrainList.add(terrain.getUuid());
     }
 }

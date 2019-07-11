@@ -8,6 +8,8 @@ public interface Dao<T> {
 
     void saveEntity(T t);
 
+    void removeEntity(T t);
+
     List<T> getAll();
 
 }

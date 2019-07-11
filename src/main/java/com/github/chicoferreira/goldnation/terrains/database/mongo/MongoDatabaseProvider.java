@@ -12,9 +12,10 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.dao.BasicDAO;
 
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MongoDatabaseProvider implements DatabaseProvider {
 
@@ -49,7 +50,8 @@ public class MongoDatabaseProvider implements DatabaseProvider {
     }
 
     @Override
-    public <T, R> Dao<T> generateDao(Class<R> rClass, Mapper<T, R> mapper) {
+    @Nonnull
+    public <T, R> Dao<T> generateDao(Class<R> rClass, @Nonnull Mapper<T, R> mapper) {
         return new Dao<T>() {
             private BasicDAO<R, String> dao = new BasicDAO<>(rClass, MongoDatabaseProvider.this.getDatastore());
 
@@ -67,11 +69,21 @@ public class MongoDatabaseProvider implements DatabaseProvider {
             }
 
             @Override
+            public void removeEntity(T t) {
+                if (t != null) {
+                    dao.delete(mapper.to(t));
+                }
+            }
+
+            @Override
             public List<T> getAll() {
-                return dao.find()
-                        .asList().stream()
-                        .map(mapper::from)
-                        .collect(Collectors.toList());
+                List<T> list = new ArrayList<>();
+                for (R r : dao.find()) {
+                    if (r != null) {
+                        list.add(mapper.from(r));
+                    }
+                }
+                return list;
             }
         };
     }

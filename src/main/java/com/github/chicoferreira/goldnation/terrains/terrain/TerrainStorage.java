@@ -1,24 +1,37 @@
 package com.github.chicoferreira.goldnation.terrains.terrain;
 
+import com.github.chicoferreira.goldnation.terrains.database.Dao;
+import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
+import com.github.chicoferreira.goldnation.terrains.terrain.database.TerrainPojo;
+import com.github.chicoferreira.goldnation.terrains.terrain.database.mapper.TerrainMapper;
 import com.github.chicoferreira.goldnation.terrains.util.Area2D;
 import com.github.chicoferreira.goldnation.terrains.util.Position2D;
 import org.bukkit.Location;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 public class TerrainStorage {
 
-    // TODO: add terrain dao
-
+    private TerrainsPlugin plugin;
     private Map<Position2D, Terrain> map;
+    private Dao<Terrain> dao;
 
-    public TerrainStorage() {
+    public TerrainStorage(TerrainsPlugin plugin) {
+        this.plugin = plugin;
         this.map = new TreeMap<>();
+        this.dao = plugin.getDatabaseProvider().generateDao(TerrainPojo.class, new TerrainMapper());
     }
 
     public void create(Terrain terrain) {
+        putPositions(terrain);
+        this.plugin.getScheduler().makeAsync(() -> dao.saveEntity(terrain));
+    }
+
+    private void putPositions(Terrain terrain) {
         for (Position2D position2D : terrain.getArea()) {
             map.put(position2D, terrain);
         }
@@ -29,6 +42,8 @@ public class TerrainStorage {
         while (values.contains(terrain)) {
             values.remove(terrain);
         }
+
+        this.plugin.getScheduler().makeAsync(() -> dao.removeEntity(terrain));
     }
 
     public Terrain get(Position2D position2D) {
@@ -52,5 +67,25 @@ public class TerrainStorage {
 
     public Map<Position2D, Terrain> getMap() {
         return map;
+    }
+
+    public int loadAll() {
+        List<Terrain> all = dao.getAll();
+
+        for (Terrain terrain : all) {
+            putPositions(terrain);
+        }
+
+        return all.size();
+    }
+
+    public int saveAll() {
+        List<Terrain> terrainList = getMap().values().stream().distinct().collect(Collectors.toList());
+
+        for (Terrain terrain : terrainList) {
+            dao.saveEntity(terrain);
+        }
+
+        return terrainList.size();
     }
 }

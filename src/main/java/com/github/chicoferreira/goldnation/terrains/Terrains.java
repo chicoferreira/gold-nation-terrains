@@ -19,6 +19,8 @@ import com.github.chicoferreira.goldnation.terrains.user.User;
 import com.github.chicoferreira.goldnation.terrains.user.UserStorage;
 import com.github.chicoferreira.goldnation.terrains.user.listener.UserListener;
 
+import java.util.logging.Level;
+
 public class Terrains extends TerrainsPluginBukkit {
 
     private Scheduler scheduler;
@@ -66,7 +68,10 @@ public class Terrains extends TerrainsPluginBukkit {
             }
         };
 
-        this.terrainStorage = new TerrainStorage();
+        this.terrainStorage = new TerrainStorage(this);
+        int loadedTerrains = this.terrainStorage.loadAll();
+        getLogger().log(Level.INFO, "Carregado {0} terrenos.", loadedTerrains);
+
         this.terrainController = new TerrainControllerImpl(this);
 
         this.commandExecutor = new CommandExecutorImpl(this);
@@ -78,8 +83,12 @@ public class Terrains extends TerrainsPluginBukkit {
 
     @Override
     public void disable() {
+        int savedTerrains = this.terrainStorage.saveAll();
+        getLogger().log(Level.INFO, "Guardado {0} terrenos.", savedTerrains);
+        int savedUsers = this.userStorage.saveAllLoaded();
+        getLogger().log(Level.INFO, "Guardado {0} users carregados.", savedUsers);
+
         databaseProvider.close();
-        // save all users and terrains
     }
 
     @Override

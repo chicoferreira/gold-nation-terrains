@@ -8,7 +8,7 @@ import org.mongodb.morphia.annotations.Indexed;
 import java.util.List;
 import java.util.UUID;
 
-@Entity(value = "users")
+@Entity(value = "users", noClassnameStored = true)
 public class UserPojo extends Pojo {
 
     @Id

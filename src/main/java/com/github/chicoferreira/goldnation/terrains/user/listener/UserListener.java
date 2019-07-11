@@ -7,7 +7,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -37,13 +36,4 @@ public class UserListener implements Listener {
             plugin.getLogger().severe("Couldn't grab '" + player.getName() + "' terrain user info:");
         }
     }
-
-    @EventHandler
-    public void onQuit(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-
-        User user = plugin.getUserStorage().get(player.getName()).join();
-        plugin.getUserStorage().save(user);
-    }
-
 }

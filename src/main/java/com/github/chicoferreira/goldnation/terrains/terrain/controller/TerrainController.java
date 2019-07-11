@@ -1,5 +1,6 @@
 package com.github.chicoferreira.goldnation.terrains.terrain.controller;
 
+import com.github.chicoferreira.goldnation.terrains.terrain.Terrain;
 import com.github.chicoferreira.goldnation.terrains.user.User;
 import org.bukkit.Location;
 
@@ -10,6 +11,10 @@ public interface TerrainController {
     boolean hasNearbyTerrains(Location location, int radius);
 
     double calculatePrice(int radius);
+
+    void remove(Terrain terrain);
+
+    void create(Terrain terrain);
 
 
 }
