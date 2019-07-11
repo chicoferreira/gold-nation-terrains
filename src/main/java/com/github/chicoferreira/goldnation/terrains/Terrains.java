@@ -6,6 +6,9 @@ import com.github.chicoferreira.goldnation.terrains.command.executor.CommandExec
 import com.github.chicoferreira.goldnation.terrains.command.executor.CommandExecutorImpl;
 import com.github.chicoferreira.goldnation.terrains.command.recorder.BukkitCommandRecorder;
 import com.github.chicoferreira.goldnation.terrains.command.recorder.CommandRecorder;
+import com.github.chicoferreira.goldnation.terrains.database.credentials.DatabaseCredentials;
+import com.github.chicoferreira.goldnation.terrains.database.mongo.MongoDatabaseProvider;
+import com.github.chicoferreira.goldnation.terrains.database.provider.DatabaseProvider;
 import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPluginBukkit;
 import com.github.chicoferreira.goldnation.terrains.scheduler.BukkitScheduler;
 import com.github.chicoferreira.goldnation.terrains.scheduler.Scheduler;
@@ -29,9 +32,17 @@ public class Terrains extends TerrainsPluginBukkit {
 
     private Bank bank;
 
+    private DatabaseProvider databaseProvider;
+
     @Override
     public void enable() {
         this.scheduler = new BukkitScheduler(this);
+
+        this.databaseProvider = new MongoDatabaseProvider();
+
+        this.databaseProvider.connect(DatabaseCredentials.with("localhost", 27017, "admin", "admin", "admin"));
+
+        // TODO: do this configurable
 
         this.userStorage = new UserStorage(this);
         registerListener(new UserListener(this));
@@ -67,6 +78,8 @@ public class Terrains extends TerrainsPluginBukkit {
 
     @Override
     public void disable() {
+        databaseProvider.close();
+        // save all users and terrains
     }
 
     @Override
@@ -107,5 +120,10 @@ public class Terrains extends TerrainsPluginBukkit {
     @Override
     public Bank getBank() {
         return bank;
+    }
+
+    @Override
+    public DatabaseProvider getDatabaseProvider() {
+        return databaseProvider;
     }
 }

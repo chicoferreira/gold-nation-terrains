@@ -1,11 +1,13 @@
 package com.github.chicoferreira.goldnation.terrains.user.listener;
 
 import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
+import com.github.chicoferreira.goldnation.terrains.user.User;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -28,11 +30,20 @@ public class UserListener implements Listener {
     public void onJoin(PlayerLoginEvent event) {
         Player player = event.getPlayer();
         try {
-            plugin.getUserStorage().get(player.getName()).get(200, TimeUnit.MILLISECONDS).updatePlayer();
+            User user = plugin.getUserStorage().get(player.getName()).get(200, TimeUnit.MILLISECONDS);
+            user.updatePlayer();
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, plugin.getConstants().playerJoinTimeout);
-            plugin.getLogger().severe("Couldn't grab '" + player.getName() + "' pickaxe user info:");
+            plugin.getLogger().severe("Couldn't grab '" + player.getName() + "' terrain user info:");
         }
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+
+        User user = plugin.getUserStorage().get(player.getName()).join();
+        plugin.getUserStorage().save(user);
     }
 
 }

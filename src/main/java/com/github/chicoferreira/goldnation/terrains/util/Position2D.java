@@ -1,5 +1,6 @@
 package com.github.chicoferreira.goldnation.terrains.util;
 
+import javax.annotation.Nonnull;
 import java.util.Objects;
 
 public class Position2D implements Comparable<Position2D> {
@@ -28,10 +29,11 @@ public class Position2D implements Comparable<Position2D> {
     }
 
     @Override
-    public int compareTo(Position2D position2D) { // FIXME:
-        int coordinatesSum = this.getX() >> this.getZ();
-        int otherCoordinatesSum = position2D.getX() >> position2D.getZ();
-        return Integer.compare(coordinatesSum, otherCoordinatesSum);
+    public int compareTo(@Nonnull Position2D position2D) {
+        int xComparison = Integer.compare(this.getX(), position2D.getX());
+        int zComparison = Integer.compare(this.getZ(), position2D.getZ());
+
+        return xComparison != 0 ? xComparison : zComparison;
     }
 
     @Override

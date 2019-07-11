@@ -1,23 +1,25 @@
 package com.github.chicoferreira.goldnation.terrains.terrain;
 
-import com.github.chicoferreira.goldnation.terrains.user.User;
 import com.github.chicoferreira.goldnation.terrains.util.Area2D;
 import org.bukkit.Location;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Terrain {
 
-    private User owner;
+    private UUID uuid;
+    private String owner;
 
     private int terrainSize;
     private Area2D area;
 
     private Location spawnLocation;
     private boolean pvpEnabled;
-    private List<User> trustedUsers;
+    private List<String> trustedUsers;
 
-    public Terrain(User owner, int terrainSize, Area2D area2D, Location spawnLocation, boolean pvpEnabled, List<User> trustedUsers) {
+    public Terrain(UUID uuid, String owner, int terrainSize, Area2D area2D, Location spawnLocation, boolean pvpEnabled, List<String> trustedUsers) {
+        this.uuid = uuid;
         this.owner = owner;
         this.terrainSize = terrainSize;
         this.area = area2D;
@@ -26,7 +28,11 @@ public class Terrain {
         this.trustedUsers = trustedUsers;
     }
 
-    public User getOwner() {
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public String getOwner() {
         return owner;
     }
 
@@ -46,7 +52,7 @@ public class Terrain {
         return pvpEnabled;
     }
 
-    public List<User> getTrustedUsers() {
+    public List<String> getTrustedUsers() {
         return trustedUsers;
     }
 }

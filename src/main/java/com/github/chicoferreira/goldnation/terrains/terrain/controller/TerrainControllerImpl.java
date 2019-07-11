@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class TerrainControllerImpl implements TerrainController {
@@ -25,7 +26,7 @@ public class TerrainControllerImpl implements TerrainController {
     @Override
     public boolean acquire(User user, Location location, int size) {
         Area2D area2D = new Area2D(location.getBlockX(), location.getBlockZ(), size);
-        Terrain terrain = new Terrain(user, size, area2D, location, false, Lists.newArrayList());
+        Terrain terrain = new Terrain(UUID.randomUUID(), user.getName(), size, area2D, location, false, Lists.newArrayList());
 
         if (!hasNearbyTerrains(location, size)) {
             plugin.getTerrainStorage().create(terrain);

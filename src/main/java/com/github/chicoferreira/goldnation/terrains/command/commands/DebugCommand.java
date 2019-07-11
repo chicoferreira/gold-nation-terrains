@@ -14,7 +14,7 @@ public class DebugCommand extends AbstractCommand {
     @Override
     public boolean execute(User user, CommandContexts commandContexts) {
         getPlugin().getTerrainStorage().getMap().forEach((position2D, terrain) ->
-                user.sendMessage(position2D.toString() + " - " + terrain.getOwner().getName())
+                user.sendMessage(position2D.toString() + " - " + terrain.getOwner())
         );
         return false;
     }

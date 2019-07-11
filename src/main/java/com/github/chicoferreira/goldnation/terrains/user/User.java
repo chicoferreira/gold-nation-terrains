@@ -6,11 +6,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.UUID;
 
 public class User {
 
     private String name;
-    private List<Terrain> terrainList;
+    private List<UUID> terrainList;
 
     private transient Player player;
 
@@ -18,7 +19,7 @@ public class User {
         this(name, Lists.newArrayList());
     }
 
-    public User(String name, List<Terrain> terrainList) {
+    public User(String name, List<UUID> terrainList) {
         this.name = name;
         this.terrainList = terrainList;
     }
@@ -27,7 +28,7 @@ public class User {
         return name;
     }
 
-    public List<Terrain> getTerrainList() {
+    public List<UUID> getTerrainList() {
         return terrainList;
     }
 
@@ -50,6 +51,6 @@ public class User {
     }
 
     public void addTerrain(Terrain terrain) {
-        this.terrainList.add(terrain);
+        this.terrainList.add(terrain.getUuid());
     }
 }

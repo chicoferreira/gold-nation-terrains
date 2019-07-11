@@ -1,6 +1,9 @@
 package com.github.chicoferreira.goldnation.terrains.user;
 
+import com.github.chicoferreira.goldnation.terrains.database.Dao;
 import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
+import com.github.chicoferreira.goldnation.terrains.user.database.UserMapper;
+import com.github.chicoferreira.goldnation.terrains.user.database.UserPojo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,10 +14,12 @@ public class UserStorage {
 
     private TerrainsPlugin plugin;
     private Map<String, User> map;
+    private Dao<User> userDao;
 
     public UserStorage(TerrainsPlugin plugin) {
         this.plugin = plugin;
         this.map = new HashMap<>();
+        this.userDao = plugin.getDatabaseProvider().generateDao(UserPojo.class, new UserMapper());
     }
 
     public CompletableFuture<User> get(String userName) {
@@ -22,7 +27,7 @@ public class UserStorage {
             User user = map.get(userName);
 
             if (user == null) {
-//                user = put(userDao.get(userName));
+                user = put(userDao.getEntity(userName));
             }
             if (user == null) {
                 user = put(new User(userName));
@@ -38,16 +43,16 @@ public class UserStorage {
         return user;
     }
 
-//    public CompletableFuture<Void> save(User user) {
-//        return runAsync(() -> userDao.save(user));
-//    }
+    public void save(User user) {
+        runAsync(() -> userDao.saveEntity(user));
+    }
 
     public <T> CompletableFuture<T> runAsync(Supplier<T> supplier) {
         return CompletableFuture.supplyAsync(supplier, plugin.getScheduler().async());
     }
 
-    public CompletableFuture<Void> runAsync(Runnable runnable) {
-        return CompletableFuture.runAsync(runnable, plugin.getScheduler().async());
+    public void runAsync(Runnable runnable) {
+        CompletableFuture.runAsync(runnable, plugin.getScheduler().async());
     }
 
 }

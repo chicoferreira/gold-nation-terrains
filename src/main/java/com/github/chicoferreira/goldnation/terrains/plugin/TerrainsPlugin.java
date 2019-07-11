@@ -4,6 +4,7 @@ import com.github.chicoferreira.goldnation.terrains.Constants;
 import com.github.chicoferreira.goldnation.terrains.bank.Bank;
 import com.github.chicoferreira.goldnation.terrains.command.executor.CommandExecutor;
 import com.github.chicoferreira.goldnation.terrains.command.recorder.CommandRecorder;
+import com.github.chicoferreira.goldnation.terrains.database.provider.DatabaseProvider;
 import com.github.chicoferreira.goldnation.terrains.scheduler.Scheduler;
 import com.github.chicoferreira.goldnation.terrains.terrain.TerrainStorage;
 import com.github.chicoferreira.goldnation.terrains.terrain.controller.TerrainController;
@@ -36,4 +37,6 @@ public interface TerrainsPlugin {
     TerrainController getTerrainController();
 
     Bank getBank();
+
+    DatabaseProvider getDatabaseProvider();
 }
