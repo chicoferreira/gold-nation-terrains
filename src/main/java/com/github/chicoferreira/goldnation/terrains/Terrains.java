@@ -1,6 +1,7 @@
 package com.github.chicoferreira.goldnation.terrains;
 
 import com.github.chicoferreira.goldnation.terrains.bank.Bank;
+import com.github.chicoferreira.goldnation.terrains.bank.VaultBank;
 import com.github.chicoferreira.goldnation.terrains.command.commands.TerrainCommand;
 import com.github.chicoferreira.goldnation.terrains.command.executor.CommandExecutor;
 import com.github.chicoferreira.goldnation.terrains.command.executor.CommandExecutorImpl;
@@ -15,7 +16,6 @@ import com.github.chicoferreira.goldnation.terrains.scheduler.Scheduler;
 import com.github.chicoferreira.goldnation.terrains.terrain.TerrainStorage;
 import com.github.chicoferreira.goldnation.terrains.terrain.controller.TerrainController;
 import com.github.chicoferreira.goldnation.terrains.terrain.controller.TerrainControllerImpl;
-import com.github.chicoferreira.goldnation.terrains.user.User;
 import com.github.chicoferreira.goldnation.terrains.user.UserStorage;
 import com.github.chicoferreira.goldnation.terrains.user.listener.UserListener;
 
@@ -49,24 +49,10 @@ public class Terrains extends TerrainsPluginBukkit {
         this.userStorage = new UserStorage(this);
         registerListener(new UserListener(this));
 
-        // TODO: add vault implementation
-
-        this.bank = new Bank() {
-            @Override
-            public double get(User user) {
-                return Double.MAX_VALUE;
-            }
-
-            @Override
-            public boolean add(User user, double amount) {
-                return true;
-            }
-
-            @Override
-            public boolean remove(User user, double amount) {
-                return true;
-            }
-        };
+        this.bank = new VaultBank();
+        if (!this.bank.init()) {
+            getLogger().warning("Não foi possível carregar o Vault corretamente. Isto poderá levar ao mau funcionamento do plugin.");
+        }
 
         this.terrainStorage = new TerrainStorage(this);
         int loadedTerrains = this.terrainStorage.loadAll();

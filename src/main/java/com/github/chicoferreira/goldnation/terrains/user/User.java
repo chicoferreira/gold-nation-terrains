@@ -48,4 +48,11 @@ public class User {
             player.sendMessage(String.format(message, objects));
         }
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

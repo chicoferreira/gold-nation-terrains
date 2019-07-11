@@ -48,22 +48,16 @@ public class UserStorage {
         plugin.getScheduler().makeAsync(() -> userDao.saveEntity(user));
     }
 
-    public void addTerrain(User user, Terrain terrain) {
+    public void addTerrain(String owner, Terrain terrain) {
+        User user = get(owner).join();
         user.getTerrainList().add(terrain.getUuid());
         this.save(user);
     }
 
-    public void addTerrain(String owner, Terrain terrain) {
-        this.addTerrain(get(owner).join(), terrain);
-    }
-
-    public void removeTerrain(User user, Terrain terrain) {
+    public void removeTerrain(String owner, Terrain terrain) {
+        User user = get(owner).join();
         user.getTerrainList().remove(terrain.getUuid());
         this.save(user);
-    }
-
-    public void removeTerrain(String owner, Terrain terrain) {
-        this.removeTerrain(get(owner).join(), terrain);
     }
 
     public int saveAllLoaded() {

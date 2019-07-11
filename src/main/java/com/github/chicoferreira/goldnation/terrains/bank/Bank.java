@@ -4,6 +4,8 @@ import com.github.chicoferreira.goldnation.terrains.user.User;
 
 public interface Bank {
 
+    boolean init();
+
     double get(User user);
 
     boolean add(User user, double amount);
