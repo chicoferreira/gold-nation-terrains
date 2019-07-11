@@ -10,6 +10,8 @@ import java.util.TreeMap;
 
 public class TerrainStorage {
 
+    // TODO: add terrain dao
+    
     private Map<Position2D, Terrain> map;
 
     public TerrainStorage() {
