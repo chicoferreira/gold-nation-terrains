@@ -44,7 +44,7 @@ public class User {
 
     public void sendMessage(String message, Object... objects) {
         Player player = getPlayer();
-        if (player != null) {
+        if (player != null && message != null) {
             player.sendMessage(String.format(message, objects));
         }
     }
