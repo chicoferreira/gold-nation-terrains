@@ -1,0 +1,93 @@
+database:
+    host: "localhost"
+    port: 27017
+    username: "admin"
+    password: "admin"
+    database: "admin"
+settings:
+    permission: "terrain.create.<amount>"
+    minimum terrain size: 10
+    maximum terrain size: 50
+    price per block: 50.0
+    allowed world: "world"
+commands:
+    not a player: "&cApenas jogadores podem executar esse comando."
+    player offline: "&cEsse jogador não está online."
+    engine:
+        usage: "&cPor favor, use: <usage>."
+        help:
+            - ""
+            - "    &6&lAJUDA SOBRE <commandName>"
+            - ""
+            - "<commands>"
+            - ""
+        help syntax: "  &e- &f/<command> &6- &e<description>"
+        help command name: "ajuda"
+        error occured: "&cOcorreu um erro ao tentar fazer essa operação. Por favor, tente novamente."
+        couldnt modify money: "&cOcorreu um erro ao tentar modificar o seu dinheiro. Por favor, tente novamente."
+    multiple:
+        size lower than minimum: "&cO tamanho do terreno tem que exceder <min>."
+        size higher than maximum: "&cO tamanho do terreno não pode exceder <max>."
+        activated string: "Ativado"
+        disactivated string: "Desativado"
+        empty string: "Nenhum"
+        not in any terrain: "&cVocê não está em nenhum terreno."
+        not owner: "&cVocê não é o dono deste terreno."
+    buy:
+        limit: "&cVocê não pode criar mais terrenos."
+        not in world: "&cVocê não pode criar terrenos nesse mundo."
+        not enough money: "&cVocê precisa de <price> para comprar um terreno de <size>x<size>."
+        nearby terrains: "&cExistem terrenos por perto."
+        success: "&aVocê comprou com sucesso um terreno &f<size>x<size> &apor &f<price> &acoins."
+    info:
+        - ""
+        - "&eInformações do terreno de &6<owner>"
+        - ""
+        - "&eTamanho: &f<size>"
+        - "&eArea: &7x: &f<areaStartX> &7z: &f<areaStartZ> até &7x: &f<areaEndX> &7z: &f<areaEndZ>"
+        - "&eSpawn: &7x: &f<spawnX> &7y: &f<spawnY> &7z: &f<spawnZ> &7yaw: &f<spawnYaw> &7pitch: &f<spawnPitch>"
+        - "&ePvp: &f<translatedPvpState>"
+        - "&eAmigos: &f<friends>"
+        - ""
+    abandon:
+        verification: "&eDigite o comando novamente para abandonar o terreno."
+        verification duration: 3000 # 3 seconds
+        success: "&eAbandonado terreno com sucesso. Você pode comprá-lo novamente se mudar de ideias."
+    list:
+        empty: "&cVocê não tem terrenos."
+        success:
+            - ""
+            - "     &6Lista de terrenos"
+            - ""
+            - "<terrains>"
+            - ""
+        format: "  &e- &fTerreno em <x> <y> <z>"
+        format hold: "&eClique aqui para teleportar para esse terreno."
+        format click sugestion: "/terreno ir <index>"
+    go:
+        index not found: "&cVocê não tem terrenos de índice <index>."
+        success: "&aTeleportado com sucesso."
+    pvp:
+        enabled: "&eO pvp foi ativado no terreno."
+        disabled: "&eO pvp foi desativado no terreno."
+    friend:
+        added: "&eAdicionado <friend> como amigo no terreno."
+        already added: "&eVocê já tem <friend> como amigo neste terreno."
+        removed: "&eRemovido <friend> como amigo do terreno."
+        not found: "&c<friend> não está adicionado como amigo neste terreno."
+        self add: "&cVocê não pode adicionar você mesmo como amigo."
+    set spawn:
+        success: "&eSpawn do terreno alterado para a sua localização."
+    expand:
+        not enough money: "&cVocê precisa de <price> para expandir o seu terreno <size> blocos."
+        nearby terrains: "&cExistem terrenos pelos lugares que você quer expandir."
+        success: "&eExpandido o terreno <sizeToExpand> blocos por &f<price> &ecoins. Agora você tem um terreno de &f<newSize>x<newSize>&e."
+listener:
+    join:
+        could not load in time: "&cNão foi possível carregar as suas informações.&r\n&cPor favor, tente novamente."
+        load timeout: 200
+    cannot place block: "&cVocê não pode colocar blocos no terreno de <owner>."
+    cannot break block: "&cVocê não pode quebrar blocos do terreno de <owner>."
+
+
+
