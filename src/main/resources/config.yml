@@ -5,7 +5,7 @@ database:
     password: "admin"
     database: "admin"
 settings:
-    permission: "terrain.create.<amount>"
+    permission: "terrain.put.<amount>"
     minimum terrain size: 10
     maximum terrain size: 50
     price per block: 50.0
@@ -13,6 +13,7 @@ settings:
 commands:
     not a player: "&cApenas jogadores podem executar esse comando."
     player offline: "&cEsse jogador não está online."
+    no permission: "&cVocê não tem permissão para executar esse comando."
     engine:
         usage: "&cPor favor, use: <usage>."
         help:

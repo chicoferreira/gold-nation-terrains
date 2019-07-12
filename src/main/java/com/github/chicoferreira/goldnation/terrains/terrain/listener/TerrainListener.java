@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 public class TerrainListener implements Listener {
 
@@ -65,4 +66,16 @@ public class TerrainListener implements Listener {
         }
     }
 
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        if (event.hasBlock()) {
+            Location location = event.getClickedBlock().getLocation();
+
+            Terrain terrain = plugin.getTerrainStorage().get(location);
+            if (terrain != null && !terrain.isAllowed(player.getName())) {
+                event.setCancelled(true);
+            }
+        }
+    }
 }

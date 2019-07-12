@@ -15,6 +15,7 @@ public abstract class AbstractCommand implements Command {
 
     private final String name;
     private final String description;
+    private String permission;
     private Command parent;
     private List<Command> subcommands;
     private Parameter[] parameters;
@@ -35,6 +36,15 @@ public abstract class AbstractCommand implements Command {
     @Override
     public String getDescription() {
         return description;
+    }
+
+    @Override
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
     }
 
     @Override

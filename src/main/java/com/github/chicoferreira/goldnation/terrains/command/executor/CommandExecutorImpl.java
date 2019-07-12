@@ -43,35 +43,38 @@ public class CommandExecutorImpl implements CommandExecutor {
 
             index++;
         }
+        if (player.hasPermission(command.getPermission()) || player.isOp()) {
+            args = Arrays.copyOfRange(args, index, args.length);
 
-        args = Arrays.copyOfRange(args, index, args.length);
+            List<CommandContext> commandContexts = new ArrayList<>();
 
-        List<CommandContext> commandContexts = new ArrayList<>();
+            Parameter[] parameters = command.getParameters();
+            for (int i = 0; i < parameters.length; i++) {
+                Parameter parameter = parameters[i];
 
-        Parameter[] parameters = command.getParameters();
-        for (int i = 0; i < parameters.length; i++) {
-            Parameter parameter = parameters[i];
+                if (args.length > i) {
+                    String arg = args[i];
 
-            if (args.length > i) {
-                String arg = args[i];
-
-                Result parse = parameter.getType().parse(arg);
-                if (parse.wasSuccessful()) {
-                    commandContexts.add(new CommandContext(parse.get(), parameter.getName()));
+                    Result parse = parameter.getType().parse(arg);
+                    if (parse.wasSuccessful()) {
+                        commandContexts.add(new CommandContext(parse.get(), parameter.getName()));
+                    } else {
+                        parse.runFallback(user);
+                        return false;
+                    }
                 } else {
-                    parse.runFallback(user);
-                    return false;
+                    commandContexts.add(new CommandContext(null, parameter.getName()));
                 }
-            } else {
-                commandContexts.add(new CommandContext(null, parameter.getName()));
             }
-        }
 
-        long count = commandContexts.stream().filter(commandContext -> commandContext.getValue() != null).count();
-        if (count >= getMinimumArguments(command)) {
-            return command.execute(user, CommandContexts.with(commandContexts));
+            long count = commandContexts.stream().filter(commandContext -> commandContext.getValue() != null).count();
+            if (count >= getMinimumArguments(command)) {
+                return command.execute(user, CommandContexts.with(commandContexts));
+            }
+            user.sendMessage(plugin.getConstants().commandUsage.replace("<usage>", buildCommandUsage(commandList)));
+        } else {
+            user.sendMessage(plugin.getConstants().commandPlayerNoPermissions);
         }
-        user.sendMessage(plugin.getConstants().commandUsage.replace("<usage>", buildCommandUsage(commandList)));
         return false;
     }
 

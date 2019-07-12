@@ -20,6 +20,8 @@ public class Constants {
     public final String commandHelpSyntax;
     public final String helpCommandName;
 
+    public final String commandPlayerNoPermissions;
+
     public final String commandErrorOccured;
     public final String commandCouldntModifyMoney;
 
@@ -83,6 +85,7 @@ public class Constants {
         this.terrainPricePerBlock = configuration.getDouble("settings.price per block");
         this.commandNotAPlayer = translateColors(configuration.getString("commands.not a player"));
         this.commandPlayerOffline = translateColors(configuration.getString("commands.player offline"));
+        this.commandPlayerNoPermissions = translateColors(configuration.getString("commands.no permission"));
         this.commandUsage = translateColors(configuration.getString("commands.engine.usage"));
         this.commandHelp = translateColors(configuration.getStringList("commands.engine.help"));
         this.commandHelpSyntax = translateColors(configuration.getString("commands.engine.help syntax"));

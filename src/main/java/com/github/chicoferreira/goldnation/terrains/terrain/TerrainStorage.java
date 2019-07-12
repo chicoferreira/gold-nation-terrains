@@ -23,7 +23,7 @@ public class TerrainStorage {
         this.dao = plugin.getDatabaseProvider().generateDao(TerrainPojo.class, new TerrainMapper());
     }
 
-    public void create(Terrain terrain) {
+    public void put(Terrain terrain) {
         putPositions(terrain);
         this.plugin.getScheduler().makeAsync(() -> dao.saveEntity(terrain));
     }

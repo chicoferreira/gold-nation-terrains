@@ -17,6 +17,7 @@ public class ListTerrainCommand extends AbstractCommand {
 
     public ListTerrainCommand(TerrainsPlugin plugin) {
         super(plugin, "listar", "Lista todos os terrenos comprados.");
+        setPermission("goldnation.terrains.list");
     }
 
     @Override

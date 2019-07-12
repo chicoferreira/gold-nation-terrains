@@ -19,6 +19,7 @@ public class BuyCommand extends AbstractCommand {
     public BuyCommand(TerrainsPlugin plugin) {
         super(plugin, "comprar", "Compra um terreno.");
         this.terrainController = plugin.getTerrainController();
+        setPermission("goldnation.terrains.buy");
 
         setParameters(Parameter.ofMandatory("tamanho", VariableTypes.INTEGER));
     }

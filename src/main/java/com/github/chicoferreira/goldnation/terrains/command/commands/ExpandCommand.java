@@ -21,6 +21,7 @@ public class ExpandCommand extends AbstractCommand {
     public ExpandCommand(TerrainsPlugin plugin) {
         super(plugin, "expandir", "Expande um terreno.");
         this.terrainController = plugin.getTerrainController();
+        setPermission("goldnation.terrains.expand");
 
         setParameters(Parameter.ofMandatory("tamanho", VariableTypes.INTEGER));
     }
