@@ -8,10 +8,7 @@ import com.github.chicoferreira.goldnation.terrains.util.Area2D;
 import com.github.chicoferreira.goldnation.terrains.util.Position2D;
 import org.bukkit.Location;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TerrainStorage {
@@ -50,6 +47,15 @@ public class TerrainStorage {
         return map.get(position2D);
     }
 
+    public Terrain get(UUID uuid) {
+        for (Terrain value : map.values()) {
+            if (value.getUuid().equals(uuid)) {
+                return value;
+            }
+        }
+        return null;
+    }
+
     public boolean contains(Position2D position2D) {
         return map.containsKey(position2D);
     }
@@ -59,6 +65,17 @@ public class TerrainStorage {
         for (Position2D position2D : area2D) {
             Terrain terrain = get(position2D);
             if (terrain != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasNearbyTerrainsExcept(Terrain terrainToIgnore, Location location, int radius) {
+        Area2D area2D = new Area2D(location.getBlockX(), location.getBlockZ(), radius);
+        for (Position2D position2D : area2D) {
+            Terrain terrain = get(position2D);
+            if (terrain != null && !terrain.equals(terrainToIgnore)) {
                 return true;
             }
         }

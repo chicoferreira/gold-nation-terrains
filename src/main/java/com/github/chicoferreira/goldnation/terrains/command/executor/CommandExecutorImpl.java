@@ -63,11 +63,12 @@ public class CommandExecutorImpl implements CommandExecutor {
                     return false;
                 }
             } else {
-                break;
+                commandContexts.add(new CommandContext(null, parameter.getName()));
             }
         }
 
-        if (commandContexts.size() >= getMinimumArguments(command)) {
+        long count = commandContexts.stream().filter(commandContext -> commandContext.getValue() != null).count();
+        if (count >= getMinimumArguments(command)) {
             return command.execute(user, CommandContexts.with(commandContexts));
         }
         user.sendMessage(plugin.getConstants().commandUsage.replace("<usage>", buildCommandUsage(commandList)));

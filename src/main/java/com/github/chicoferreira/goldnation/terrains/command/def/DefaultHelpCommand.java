@@ -26,11 +26,11 @@ public class DefaultHelpCommand extends AbstractCommand {
                 String command = buildCommandSyntax(this.parent);
 
                 user.sendMessage(getPlugin().getConstants().commandHelpSyntax
-                        .replace("<command>", command + " " + buildParameterSyntax(this.parent))
+                        .replace("<command>", command + buildParameterSyntax(this.parent))
                         .replace("<description>", this.parent.getDescription()));
                 for (Command subcommand : this.parent.getSubcommands()) {
                     user.sendMessage(getPlugin().getConstants().commandHelpSyntax
-                            .replace("<command>", command + " " + subcommand.getName() + " " + buildParameterSyntax(subcommand))
+                            .replace("<command>", command + " " + subcommand.getName() + buildParameterSyntax(subcommand))
                             .replace("<description>", subcommand.getDescription()));
                 }
 
@@ -42,9 +42,9 @@ public class DefaultHelpCommand extends AbstractCommand {
     }
 
     public String buildParameterSyntax(Command command) {
-        return Arrays.stream(command.getParameters())
+        return command.getParameters().length != 0 ? " " + Arrays.stream(command.getParameters())
                 .map(Parameter::stringValue)
-                .collect(Collectors.joining(" "));
+                .collect(Collectors.joining(" ")) : "";
     }
 
     public String buildCommandSyntax(Command command) {

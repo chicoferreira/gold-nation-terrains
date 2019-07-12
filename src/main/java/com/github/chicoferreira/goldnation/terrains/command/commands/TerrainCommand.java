@@ -6,8 +6,18 @@ import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
 public class TerrainCommand extends HelpAbstractCommand {
 
     public TerrainCommand(TerrainsPlugin plugin) {
-        super(plugin, "terrain", "Comando sobre terrenos.");
-        setSubcommands(new BuyCommand(getPlugin()), new DebugCommand(getPlugin()));
+        super(plugin, "terreno", "Comando sobre terrenos.");
+        setSubcommands(
+                new BuyCommand(getPlugin()),
+                new InfoCommand(getPlugin()),
+                new AbandonCommand(getPlugin()),
+                new ListTerrainCommand(getPlugin()),
+                new GoCommand(getPlugin()),
+                new PvpToggleCommand(getPlugin()),
+                new FriendAddCommand(getPlugin()),
+                new FriendRemoveCommand(getPlugin()),
+                new SetSpawnCommand(getPlugin())
+        );
     }
 
 }

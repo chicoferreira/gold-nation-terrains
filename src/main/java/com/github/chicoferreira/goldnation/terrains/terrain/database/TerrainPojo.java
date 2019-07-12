@@ -20,10 +20,14 @@ public class TerrainPojo extends Pojo {
     @Embedded(value = "area")
     private Area2DPojo area2D;
 
-    @Embedded(value = "location")
-    private LocationPojo location;
+    @Embedded(value = "spawnLocation")
+    private LocationPojo spawnLocation;
+
+    @Embedded(value = "middleLocation")
+    private LocationPojo middleLocation;
 
     private boolean pvpEnabled;
+    @Embedded
     private List<String> trustedUsers;
 
     public UUID getUuid() {
@@ -58,12 +62,20 @@ public class TerrainPojo extends Pojo {
         this.area2D = area2D;
     }
 
-    public LocationPojo getLocation() {
-        return location;
+    public LocationPojo getSpawnLocation() {
+        return spawnLocation;
     }
 
-    public void setLocation(LocationPojo location) {
-        this.location = location;
+    public void setSpawnLocation(LocationPojo spawnLocation) {
+        this.spawnLocation = spawnLocation;
+    }
+
+    public LocationPojo getMiddleLocation() {
+        return middleLocation;
+    }
+
+    public void setMiddleLocation(LocationPojo middleLocation) {
+        this.middleLocation = middleLocation;
     }
 
     public boolean isPvpEnabled() {

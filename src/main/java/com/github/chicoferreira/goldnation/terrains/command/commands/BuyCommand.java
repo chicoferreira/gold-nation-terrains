@@ -59,10 +59,10 @@ public class BuyCommand extends AbstractCommand {
                             .replace("<size>", Integer.toString(size)));
                 }
             } else {
-                user.sendMessage(constants.commandBuySizeHigherThanMax);
+                user.sendMessage(constants.commandSizeHigherThanMax);
             }
         } else {
-            user.sendMessage(constants.commandBuySizeLowerThanMin);
+            user.sendMessage(constants.commandSizeLowerThanMin);
         }
 
         return false;

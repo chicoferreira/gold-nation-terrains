@@ -1,5 +1,8 @@
 package com.github.chicoferreira.goldnation.terrains.terrain.database;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.mongodb.morphia.annotations.Embedded;
 
 @Embedded
@@ -8,6 +11,36 @@ public class LocationPojo {
     private String worldName;
     private double x, y, z;
     private float yaw, pitch;
+
+    public static LocationPojo from(Location location) {
+        LocationPojo locationPojo = new LocationPojo();
+
+        locationPojo.setWorldName(location.getWorld().getName());
+        locationPojo.setX(location.getX());
+        locationPojo.setY(location.getY());
+        locationPojo.setZ(location.getZ());
+        locationPojo.setYaw(location.getYaw());
+        locationPojo.setPitch(location.getPitch());
+
+        return locationPojo;
+    }
+
+    public static Location to(LocationPojo locationPojo) {
+        String worldName = locationPojo.getWorldName();
+        World world = Bukkit.getWorld(worldName);
+
+        if (world == null) {
+            throw new NullPointerException("Couldn't find world " + worldName + " this may cause the plugin not work as intentional:");
+        }
+
+        return new Location(
+                world,
+                locationPojo.getX(),
+                locationPojo.getY(),
+                locationPojo.getZ(),
+                locationPojo.getYaw(),
+                locationPojo.getPitch());
+    }
 
     public String getWorldName() {
         return worldName;

@@ -6,5 +6,6 @@ public class VariableTypes {
 
     public static final VariableType<String> STRING = new StringVariableType();
     public static final VariableType<Integer> INTEGER = new IntVariableType();
+    public static final VariableType<Boolean> BOOLEAN = new BooleanVariableType();
 
 }

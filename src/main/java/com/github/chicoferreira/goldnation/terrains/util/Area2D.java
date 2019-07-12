@@ -27,10 +27,11 @@ public class Area2D implements Iterable<Position2D> {
 
     public Area2D(int blockX, int blockZ, int radius) {
         this(
-                (int) (blockX + Math.ceil(radius / 2D)),
-                blockX - Math.floorDiv(radius, 2) + 1,
-                (int) (blockZ + Math.ceil(radius / 2D)),
-                blockZ - Math.floorDiv(radius, 2) + 1);
+                blockX + radius / 2,
+                (blockX - radius / 2),
+                blockZ + radius / 2,
+                (blockZ - radius / 2)
+        );
     }
 
     public int getStartX() {
