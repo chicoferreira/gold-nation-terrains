@@ -14,6 +14,7 @@ public class SetSpawnCommand extends AbstractCommand {
 
     public SetSpawnCommand(TerrainsPlugin plugin) {
         super(plugin, "setspawn", "Muda a localização do spawn do terreno.");
+        setPermission("goldnation.terrains.setspawn");
     }
 
     @Override

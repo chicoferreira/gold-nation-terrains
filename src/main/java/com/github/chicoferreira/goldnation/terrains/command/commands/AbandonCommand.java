@@ -18,6 +18,7 @@ public class AbandonCommand extends AbstractCommand {
 
     public AbandonCommand(TerrainsPlugin plugin) {
         super(plugin, "abandonar", "Abandona o terreno.");
+        setPermission("goldnation.terrains.abandon");
         this.map = new HashMap<>();
     }
 

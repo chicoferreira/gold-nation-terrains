@@ -16,6 +16,7 @@ public class FriendAddCommand extends AbstractCommand {
 
     public FriendAddCommand(TerrainsPlugin plugin) {
         super(plugin, "addamigo", "Adiciona um amigo ao terreno.");
+        setPermission("goldnation.terrains.addfriend");
         setParameters(Parameter.ofMandatory("amigo", VariableTypes.STRING));
     }
 

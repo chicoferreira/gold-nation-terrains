@@ -16,6 +16,7 @@ public class PvpToggleCommand extends AbstractCommand {
     public PvpToggleCommand(TerrainsPlugin plugin) {
         super(plugin, "pvp", "Troca o estado do pvp do terreno.");
         setParameters(Parameter.of("estado", VariableTypes.BOOLEAN));
+        setPermission("goldnation.terrains.pvp");
     }
 
     @Override

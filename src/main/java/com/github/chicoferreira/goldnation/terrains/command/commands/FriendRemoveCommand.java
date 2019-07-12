@@ -15,6 +15,7 @@ public class FriendRemoveCommand extends AbstractCommand {
 
     public FriendRemoveCommand(TerrainsPlugin plugin) {
         super(plugin, "removeramigo", "Remove um amigo do terreno.");
+        setPermission("goldnation.terrains.removefriend");
         setParameters(Parameter.ofMandatory("amigo", VariableTypes.STRING));
     }
 

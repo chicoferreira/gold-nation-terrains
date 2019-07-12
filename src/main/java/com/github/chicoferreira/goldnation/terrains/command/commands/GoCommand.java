@@ -15,6 +15,7 @@ public class GoCommand extends AbstractCommand {
 
     public GoCommand(TerrainsPlugin plugin) {
         super(plugin, "ir", "Vai para um terreno.");
+        setPermission("goldnation.terrains.go");
         setParameters(Parameter.of("indice", VariableTypes.INTEGER));
     }
 

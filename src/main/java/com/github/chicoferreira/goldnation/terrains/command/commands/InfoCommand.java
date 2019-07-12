@@ -15,6 +15,7 @@ public class InfoCommand extends AbstractCommand {
 
     public InfoCommand(TerrainsPlugin plugin) {
         super(plugin, "info", "Mostra detalhes do terreno que você está.");
+        setPermission("goldnation.terrains.info");
     }
 
     @Override
