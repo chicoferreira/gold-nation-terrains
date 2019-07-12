@@ -4,6 +4,7 @@ import com.github.chicoferreira.goldnation.terrains.util.Area2D;
 import org.bukkit.Location;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Terrain {
@@ -77,5 +78,35 @@ public class Terrain {
 
     public List<String> getTrustedUsers() {
         return trustedUsers;
+    }
+
+    public boolean isAllowed(String name) {
+        return name.equals(this.getOwner()) || getTrustedUsers().contains(name);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o instanceof Terrain) {
+            Terrain terrain = (Terrain) o;
+            return this.getUuid().equals(terrain.getUuid());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid);
+    }
+
+    @Override
+    public String toString() {
+        return "Terrain{" +
+                "uuid=" + uuid +
+                ", owner='" + owner + '\'' +
+                ", terrainSize=" + terrainSize +
+                ", area=" + area +
+                '}';
     }
 }

@@ -8,11 +8,12 @@ public class TerrainCommand extends HelpAbstractCommand {
     public TerrainCommand(TerrainsPlugin plugin) {
         super(plugin, "terreno", "Comando sobre terrenos.");
         setSubcommands(
+                new GoCommand(getPlugin()),
                 new BuyCommand(getPlugin()),
-                new InfoCommand(getPlugin()),
                 new AbandonCommand(getPlugin()),
                 new ListTerrainCommand(getPlugin()),
-                new GoCommand(getPlugin()),
+                new InfoCommand(getPlugin()),
+                new ExpandCommand(getPlugin()),
                 new PvpToggleCommand(getPlugin()),
                 new FriendAddCommand(getPlugin()),
                 new FriendRemoveCommand(getPlugin()),

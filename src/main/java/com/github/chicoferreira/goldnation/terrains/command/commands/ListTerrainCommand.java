@@ -31,7 +31,7 @@ public class ListTerrainCommand extends AbstractCommand {
                     for (int i = 0; i < terrainList.size(); i++) {
                         UUID uuid = terrainList.get(i);
                         Terrain terrain = getPlugin().getTerrainStorage().get(uuid);
-                        if (terrain != null) {
+                        if (terrain != null && constants.commandListFormat != null) {
                             TextComponent textComponent = new TextComponent(TextComponent.fromLegacyText(constants.commandListFormat
                                     .replace("<index>", Integer.toString(i + 1))
                                     .replace("<owner>", terrain.getOwner())
@@ -45,24 +45,34 @@ public class ListTerrainCommand extends AbstractCommand {
                                     .replace("<spawnZ>", Integer.toString(terrain.getSpawnLocation().getBlockZ()))
                                     .replace("<spawnYaw>", Float.toString(terrain.getSpawnLocation().getYaw()))
                                     .replace("<spawnPitch>", Float.toString(terrain.getSpawnLocation().getPitch()))
+                                    .replace("<x>", Integer.toString(terrain.getMiddleLocation().getBlockX()))
+                                    .replace("<y>", Integer.toString(terrain.getMiddleLocation().getBlockY()))
+                                    .replace("<z>", Integer.toString(terrain.getMiddleLocation().getBlockZ()))
+                                    .replace("<yaw>", Float.toString(terrain.getMiddleLocation().getYaw()))
+                                    .replace("<pitch>", Float.toString(terrain.getMiddleLocation().getPitch()))
                                     .replace("<translatedPvpState>", terrain.isPvpEnabled() ? constants.activated : constants.disactivated)
                                     .replace("<friends>", terrain.getTrustedUsers().isEmpty() ?
-                                            constants.emptyFriendsList : String.join(", ", terrain.getTrustedUsers()))));
+                                            constants.emptyString : String.join(", ", terrain.getTrustedUsers()))));
+                            if (constants.commandListFormatHold != null) {
+                                textComponent.setHoverEvent(new HoverEvent(
+                                                HoverEvent.Action.SHOW_TEXT,
+                                                TextComponent.fromLegacyText(constants.commandListFormatHold)
+                                        )
+                                );
+                            }
 
-                            textComponent.setHoverEvent(new HoverEvent(
-                                            HoverEvent.Action.SHOW_TEXT,
-                                            TextComponent.fromLegacyText(constants.commandListFormatHold)
-                                    )
-                            );
-
-                            textComponent.setClickEvent(new ClickEvent(
-                                            ClickEvent.Action.SUGGEST_COMMAND,
-                                            constants.commandListFormatClickCommand
-                                                    .replace("<index>", Integer.toString(i + 1))
-                                    )
-                            );
+                            String commandListFormatClickCommand = constants.commandListFormatClickCommand;
+                            if (commandListFormatClickCommand != null) {
+                                textComponent.setClickEvent(new ClickEvent(
+                                                ClickEvent.Action.SUGGEST_COMMAND,
+                                                commandListFormatClickCommand
+                                                        .replace("<index>", Integer.toString(i + 1))
+                                        )
+                                );
+                            }
 
                             user.getPlayer().spigot().sendMessage(textComponent);
+
                         }
                     }
                 }

@@ -28,7 +28,7 @@ public class GoCommand extends AbstractCommand {
             Terrain terrain = getPlugin().getTerrainStorage().get(uuid);
             if (terrain != null) {
                 user.getPlayer().teleport(terrain.getSpawnLocation());
-                user.sendMessage(getPlugin().getConstants().commandGoSuccess);
+                user.sendMessage(getPlugin().getConstants().commandGoSuccess.replace("<index>", Integer.toString(index)));
             } else {
                 user.sendMessage(getPlugin().getConstants().commandErrorOccured);
             }

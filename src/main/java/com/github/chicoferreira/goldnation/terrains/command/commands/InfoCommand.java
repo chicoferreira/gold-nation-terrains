@@ -41,7 +41,7 @@ public class InfoCommand extends AbstractCommand {
                         .replace("<spawnPitch>", Float.toString(terrain.getSpawnLocation().getPitch()))
                         .replace("<translatedPvpState>", terrain.isPvpEnabled() ? constants.activated : constants.disactivated)
                         .replace("<friends>", trustedUsers.isEmpty() ?
-                                constants.emptyFriendsList : String.join(", ", trustedUsers))
+                                constants.emptyString : String.join(", ", trustedUsers))
                 );
             }
         } else {

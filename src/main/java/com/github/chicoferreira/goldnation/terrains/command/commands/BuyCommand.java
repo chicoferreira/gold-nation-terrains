@@ -29,40 +29,48 @@ public class BuyCommand extends AbstractCommand {
 
         Constants constants = getPlugin().getConstants();
 
-        if (size >= constants.minTerrainSize) {
-            if (size <= constants.maxTerrainSize) {
-                double price = terrainController.calculatePrice(size);
-                Bank bank = getPlugin().getBank();
+        if (getPlugin().getUserTerrainLimitProvider().get(user) > user.getTerrainList().size()) {
+            if (user.getPlayer().getLocation().getWorld().getName().equals(getPlugin().getConstants().allowedWorld)) {
+                if (size >= constants.minTerrainSize) {
+                    if (size <= constants.maxTerrainSize) {
+                        double price = terrainController.calculatePrice(size);
+                        Bank bank = getPlugin().getBank();
 
-                if (bank.get(user) >= price) {
-                    Location location = user.getPlayer().getLocation();
-                    if (!terrainController.hasNearbyTerrains(location, size)) {
-                        if (bank.remove(user, price)) {
-                            boolean successful = terrainController.acquire(user, user.getPlayer().getLocation(), size);
-                            if (successful) {
-                                user.sendMessage(constants.commandBuySuccessful
-                                        .replace("<price>", NumberUtils.formatNumber(price))
-                                        .replace("<size>", Integer.toString(size)));
+                        if (bank.get(user) >= price) {
+                            Location location = user.getPlayer().getLocation();
+                            if (!terrainController.hasNearbyTerrains(location, size)) {
+                                if (bank.remove(user, price)) {
+                                    boolean successful = terrainController.acquire(user, user.getPlayer().getLocation(), size);
+                                    if (successful) {
+                                        user.sendMessage(constants.commandBuySuccessful
+                                                .replace("<price>", NumberUtils.formatNumber(price))
+                                                .replace("<size>", Integer.toString(size)));
+                                    } else {
+                                        user.sendMessage(constants.commandErrorOccured);
+                                    }
+                                    return successful;
+                                } else {
+                                    user.sendMessage(constants.commandCouldntModifyMoney);
+                                }
                             } else {
-                                user.sendMessage(constants.commandErrorOccured);
+                                user.sendMessage(constants.commandBuyNearbyTerrains);
                             }
-                            return successful;
                         } else {
-                            user.sendMessage(constants.commandCouldntModifyMoney);
+                            user.sendMessage(constants.commandBuyNotEnoughMoney
+                                    .replace("<price>", NumberUtils.formatNumber(price))
+                                    .replace("<size>", Integer.toString(size)));
                         }
                     } else {
-                        user.sendMessage(constants.commandBuyNearbyTerrains);
+                        user.sendMessage(constants.commandSizeHigherThanMax);
                     }
                 } else {
-                    user.sendMessage(constants.commandBuyNotEnoughMoney
-                            .replace("<price>", NumberUtils.formatNumber(price))
-                            .replace("<size>", Integer.toString(size)));
+                    user.sendMessage(constants.commandSizeLowerThanMin);
                 }
             } else {
-                user.sendMessage(constants.commandSizeHigherThanMax);
+                user.sendMessage(constants.commandBuyNotInWorld);
             }
         } else {
-            user.sendMessage(constants.commandSizeLowerThanMin);
+            user.sendMessage(constants.commandBuyLimit);
         }
 
         return false;

@@ -7,6 +7,8 @@ import com.github.chicoferreira.goldnation.terrains.command.executor.CommandExec
 import com.github.chicoferreira.goldnation.terrains.command.executor.CommandExecutorImpl;
 import com.github.chicoferreira.goldnation.terrains.command.recorder.BukkitCommandRecorder;
 import com.github.chicoferreira.goldnation.terrains.command.recorder.CommandRecorder;
+import com.github.chicoferreira.goldnation.terrains.config.Configuration;
+import com.github.chicoferreira.goldnation.terrains.config.bukkit.BukkitConfiguration;
 import com.github.chicoferreira.goldnation.terrains.database.credentials.DatabaseCredentials;
 import com.github.chicoferreira.goldnation.terrains.database.mongo.MongoDatabaseProvider;
 import com.github.chicoferreira.goldnation.terrains.database.provider.DatabaseProvider;
@@ -16,6 +18,9 @@ import com.github.chicoferreira.goldnation.terrains.scheduler.Scheduler;
 import com.github.chicoferreira.goldnation.terrains.terrain.TerrainStorage;
 import com.github.chicoferreira.goldnation.terrains.terrain.controller.TerrainController;
 import com.github.chicoferreira.goldnation.terrains.terrain.controller.TerrainControllerImpl;
+import com.github.chicoferreira.goldnation.terrains.terrain.limit.BukkitUserTerrainLimitProvider;
+import com.github.chicoferreira.goldnation.terrains.terrain.limit.UserTerrainLimitProvider;
+import com.github.chicoferreira.goldnation.terrains.terrain.listener.TerrainListener;
 import com.github.chicoferreira.goldnation.terrains.user.UserStorage;
 import com.github.chicoferreira.goldnation.terrains.user.listener.UserListener;
 
@@ -35,6 +40,7 @@ public class Terrains extends TerrainsPluginBukkit {
     private Bank bank;
 
     private DatabaseProvider databaseProvider;
+    private UserTerrainLimitProvider userTerrainLimitProvider;
 
     @Override
     public void enable() {
@@ -42,9 +48,16 @@ public class Terrains extends TerrainsPluginBukkit {
 
         this.databaseProvider = new MongoDatabaseProvider();
 
-        this.databaseProvider.connect(DatabaseCredentials.with("localhost", 27017, "admin", "admin", "admin"));
+        Configuration configuration = new BukkitConfiguration(this, "config.yml");
 
-        // TODO: do this configurable
+        String host = configuration.getString("database.host");
+        int port = configuration.getInt("database.port");
+        String username = configuration.getString("database.username");
+        String password = configuration.getString("database.password");
+        String database = configuration.getString("database.database");
+        this.databaseProvider.connect(DatabaseCredentials.with(host, port, username, password, database));
+
+        this.userTerrainLimitProvider = new BukkitUserTerrainLimitProvider(configuration.getString("settings.permission"), "<amount>");
 
         this.userStorage = new UserStorage(this);
         registerListener(new UserListener(this));
@@ -62,9 +75,10 @@ public class Terrains extends TerrainsPluginBukkit {
 
         this.commandExecutor = new CommandExecutorImpl(this);
         this.commandRecorder = new BukkitCommandRecorder(this);
-        this.constants = new Constants();
+        this.constants = new Constants(configuration);
 
         registerCommand(new TerrainCommand(this));
+        registerListener(new TerrainListener(this));
     }
 
     @Override
@@ -120,5 +134,10 @@ public class Terrains extends TerrainsPluginBukkit {
     @Override
     public DatabaseProvider getDatabaseProvider() {
         return databaseProvider;
+    }
+
+    @Override
+    public UserTerrainLimitProvider getUserTerrainLimitProvider() {
+        return userTerrainLimitProvider;
     }
 }

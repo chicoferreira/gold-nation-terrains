@@ -8,6 +8,7 @@ import com.github.chicoferreira.goldnation.terrains.database.provider.DatabasePr
 import com.github.chicoferreira.goldnation.terrains.scheduler.Scheduler;
 import com.github.chicoferreira.goldnation.terrains.terrain.TerrainStorage;
 import com.github.chicoferreira.goldnation.terrains.terrain.controller.TerrainController;
+import com.github.chicoferreira.goldnation.terrains.terrain.limit.UserTerrainLimitProvider;
 import com.github.chicoferreira.goldnation.terrains.user.UserStorage;
 
 import java.util.logging.Logger;
@@ -39,4 +40,6 @@ public interface TerrainsPlugin {
     Bank getBank();
 
     DatabaseProvider getDatabaseProvider();
+
+    UserTerrainLimitProvider getUserTerrainLimitProvider();
 }

@@ -1,83 +1,146 @@
 package com.github.chicoferreira.goldnation.terrains;
 
-import java.util.Arrays;
+import com.github.chicoferreira.goldnation.terrains.config.Configuration;
+import org.bukkit.ChatColor;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Constants {
 
-    public final String playerJoinTimeout = "§cNão foi possível carregar as suas informações.§r\n§cPor favor, tente novamente.";
-    public final String commandNotAPlayer = "§cApenas jogadores podem executar esse comando.";
-    public final String commandPlayerOffline = "§cEsse jogador não está online.";
+    public final String allowedWorld;
+    public final String playerJoinTimeout;
+    public final long joinTimeoutTime;
 
-    public final String commandUsage = "§cPor favor, use: <usage>.";
-    public final List<String> commandHelp = Arrays.asList("", "    §6§lAJUDA SOBRE <commandName>", "", "<commands>", "");
-    public final String commandHelpSyntax = "  §e- §f/<command> §6- §e<description>";
-    public final String helpCommandName = "ajuda";
+    public final String commandNotAPlayer;
+    public final String commandPlayerOffline;
 
-    public final String commandErrorOccured = "§cOcorreu um erro ao tentar fazer essa operação. Por favor, tente novamente.";
-    public final String commandCouldntModifyMoney = "§cOcorreu um erro ao tentar modificar o seu dinheiro. Por favor, tente novamente.";
+    public final String commandUsage;
+    public final List<String> commandHelp;
+    public final String commandHelpSyntax;
+    public final String helpCommandName;
 
-    public final int minTerrainSize = 10;
-    public final int maxTerrainSize = 50;
-    public final double terrainPricePerBlock = 50.D;
+    public final String commandErrorOccured;
+    public final String commandCouldntModifyMoney;
 
-    public final String commandSizeLowerThanMin = "§cO tamanho do terreno tem que exceder <min>.".replace("<min>", Integer.toString(minTerrainSize));
-    public final String commandSizeHigherThanMax = "§cO tamanho do terreno não pode exceder <max>.".replace("<max>", Integer.toString(maxTerrainSize));
+    public final int minTerrainSize;
+    public final int maxTerrainSize;
+    public final double terrainPricePerBlock;
 
-    public final String commandBuyNotEnoughMoney = "§cVocê precisa de <price> para comprar um terreno de <size>x<size>.";
-    public final String commandBuyNearbyTerrains = "§cExistem terrenos por perto.";
-    public final String commandBuySuccessful = "§aVocê comprou com sucesso um terreno §f<size>x<size> §apor §f<price> §acoins.";
+    public final String commandSizeLowerThanMin;
+    public final String commandSizeHigherThanMax;
 
-    public final String activated = "Ativado";
-    public final String disactivated = "Desativado";
+    public final String commandBuyLimit;
+    public final String commandBuyNotInWorld;
+    public final String commandBuyNotEnoughMoney;
+    public final String commandBuyNearbyTerrains;
+    public final String commandBuySuccessful;
 
-    public final String commandNotInTerrain = "§cVocê não está em nenhum terreno.";
+    public final String activated;
+    public final String disactivated;
 
-    public final List<String> commandInfo = Arrays.asList(
-            "",
-            "§eInformações do terreno de §6<owner>",
-            "",
-            "§eTamanho: §f<size>",
-            "§eArea: §7x: §f<areaStartX> §7z: §f<areaStartZ> até §7x: §f<areaEndX> §7z: §f<areaEndZ>",
-            "§eSpawn: §7x: §f<spawnX> §7y: §f<spawnY> §7z: §f<spawnZ> §7yaw: §f<spawnYaw> §7pitch: §f<spawnPitch>",
-            "§ePvp: §f<translatedPvpState>",
-            "§eAmigos: §f<friends>",
-            ""
-    );
-    public final String emptyFriendsList = "Nenhum";
+    public final String commandNotInTerrain;
 
-    public final long commandAbandonVerificationTime = 3000;
-    public final String commandNotOwner = "§cVocê não é o dono deste terreno.";
-    public final String commandAbandonSuccess = "§eAbandonado terreno com sucesso. Você pode comprá-lo novamente se mudar de ideias.";
-    public final String commandAbandonVerification = "§eDigite o comando novamente para abandonar o terreno.";
+    public final List<String> commandInfo;
+    public final String emptyString;
 
-    public final String commandListEmptyTerrains = "§cVocê não tem terrenos.";
-    public final List<String> commandList = Arrays.asList(
-            "",
-            "     §6Lista de terrenos",
-            "",
-            "<terrains>",
-            ""
-    );
-    public final String commandListFormat = "  §e- §f<spawnX> <spawnY> <spawnZ>";
-    public final String commandListFormatHold = "§eClique aqui para teleportar para esse terreno.";
-    public final String commandListFormatClickCommand = "/terreno ir <index>";
+    public final long commandAbandonVerificationTime;
+    public final String commandNotOwner;
+    public final String commandAbandonSuccess;
+    public final String commandAbandonVerification;
 
-    public final String commandGoNotFoundIndex = "§cVocê não tem terrenos de índice <index>.";
-    public final String commandGoSuccess = "§aTeleportado com sucesso.";
+    public final String commandListEmptyTerrains;
+    public final List<String> commandList;
+    public final String commandListFormat;
+    public final String commandListFormatHold;
+    public final String commandListFormatClickCommand;
 
-    public final String commandTogglePvpEnabled = "§eO pvp foi ativado no terreno.";
-    public final String commandTogglePvpDisabled = "§eO pvp foi desativado no terreno.";
+    public final String commandGoNotFoundIndex;
+    public final String commandGoSuccess;
 
-    public final String commandFriendAdded = "§eAdicionado <friend> como amigo no terreno.";
-    public final String commandFriendAlreadyAdded = "§eVocê já tem <friend> como amigo neste terreno.";
-    public final String commandFriendRemoved = "§eRemovido <friend> como amigo do terreno.";
-    public final String commandFriendNotFound = "§c<friend> não está adicionado como amigo neste terreno.";
-    public final String commandFriendSelfAdd = "§cVocê não pode adicionar você mesmo como amigo.";
+    public final String commandTogglePvpEnabled;
+    public final String commandTogglePvpDisabled;
 
-    public final String commandSetSpawnSuccess = "§eSpawn do terreno alterado para a sua localização.";
+    public final String commandFriendAdded;
+    public final String commandFriendAlreadyAdded;
+    public final String commandFriendRemoved;
+    public final String commandFriendNotFound;
+    public final String commandFriendSelfAdd;
 
-    public final String commandExpandNotEnoughMoney = "§cVocê precisa de <price> para expandir o seu terreno <size> blocos.";
-    public final String commandExpandNearbyTerrains = "§cExistem terrenos pelos lugares que você quer expandir.";
-    public final String commandExpandSuccessful = "§eExpandido o terreno <sizeToExpand> blocos por §f<price> §ecoins. Agora você tem um terreno de §f<newSize>x<newSize>§e.";
+    public final String commandSetSpawnSuccess;
+
+    public final String commandExpandNotEnoughMoney;
+    public final String commandExpandNearbyTerrains;
+    public final String commandExpandSuccessful;
+
+    public final String terrainCantBreakBlock;
+    public final String terrainCantPlaceBlock;
+
+    public Constants(Configuration configuration) {
+        this.allowedWorld = configuration.getString("settings.allowed world");
+        this.minTerrainSize = configuration.getInt("settings.minumum terrain size");
+        this.maxTerrainSize = configuration.getInt("settings.maximum terrain size");
+        this.terrainPricePerBlock = configuration.getDouble("settings.price per block");
+        this.commandNotAPlayer = translateColors(configuration.getString("commands.not a player"));
+        this.commandPlayerOffline = translateColors(configuration.getString("commands.player offline"));
+        this.commandUsage = translateColors(configuration.getString("commands.engine.usage"));
+        this.commandHelp = translateColors(configuration.getStringList("commands.engine.help"));
+        this.commandHelpSyntax = translateColors(configuration.getString("commands.engine.help syntax"));
+        this.helpCommandName = translateColors(configuration.getString("commands.engine.help command name"));
+        this.commandErrorOccured = translateColors(configuration.getString("commands.engine.error occured"));
+        this.commandCouldntModifyMoney = translateColors(configuration.getString("commands.engine.couldnt modify money"));
+        this.commandSizeLowerThanMin = translateColors(configuration.getString("commands.multiple.size lower than minimum"))
+                .replace("<min>", Integer.toString(minTerrainSize));
+        this.commandSizeHigherThanMax = translateColors(configuration.getString("commands.multiple.size higher than maximum"))
+                .replace("<max>", Integer.toString(maxTerrainSize));
+        this.activated = configuration.getString("commands.multiple.activated string");
+        this.disactivated = configuration.getString("commands.multiple.disactivated string");
+        this.emptyString = configuration.getString("commands.multiple.empty string");
+        this.commandNotInTerrain = translateColors(configuration.getString("commands.multiple.not in any terrain"));
+        this.commandNotOwner = translateColors(configuration.getString("commands.multiple.not owner"));
+        this.commandBuyLimit = translateColors(configuration.getString("commands.buy.limit"));
+        this.commandBuyNotInWorld = translateColors(configuration.getString("commands.buy.not in world"));
+        this.commandBuyNotEnoughMoney = translateColors(configuration.getString("commands.buy.not enough money"));
+        this.commandBuyNearbyTerrains = translateColors(configuration.getString("commands.buy.nearby terrains"));
+        this.commandBuySuccessful = translateColors(configuration.getString("commands.buy.success"));
+        this.commandInfo = translateColors(configuration.getStringList("commands.info"));
+        this.commandAbandonVerification = translateColors(configuration.getString("commands.abandon.verification"));
+        this.commandAbandonVerificationTime = configuration.getLong("commands.abandon.verification duration");
+        this.commandAbandonSuccess = translateColors(configuration.getString("commands.abandon.success"));
+        this.commandListEmptyTerrains = translateColors(configuration.getString("commands.list.empty"));
+        this.commandList = translateColors(configuration.getStringList("commands.list.success"));
+        this.commandListFormat = translateColors(configuration.getString("commands.list.format"));
+        this.commandListFormatHold = translateColors(configuration.getString("commands.list.format hold"));
+        this.commandListFormatClickCommand = translateColors(configuration.getString("commands.list.format click sugestion"));
+        this.commandGoNotFoundIndex = translateColors(configuration.getString("commands.go.index not found"));
+        this.commandGoSuccess = translateColors(configuration.getString("commands.go.success"));
+        this.commandTogglePvpEnabled = translateColors(configuration.getString("commands.pvp.enabled"));
+        this.commandTogglePvpDisabled = translateColors(configuration.getString("commands.pvp.disabled"));
+        this.commandFriendAdded = translateColors(configuration.getString("commands.friend.added"));
+        this.commandFriendAlreadyAdded = translateColors(configuration.getString("commands.friend.already added"));
+        this.commandFriendRemoved = translateColors(configuration.getString("commands.friend.removed"));
+        this.commandFriendNotFound = translateColors(configuration.getString("commands.friend.not found"));
+        this.commandFriendSelfAdd = translateColors(configuration.getString("commands.friend.self add"));
+        this.commandSetSpawnSuccess = translateColors(configuration.getString("commands.set spawn.success"));
+        this.commandExpandNotEnoughMoney = translateColors(configuration.getString("commands.expand.not enough money"));
+        this.commandExpandNearbyTerrains = translateColors(configuration.getString("commands.expand.nearby terrains"));
+        this.commandExpandSuccessful = translateColors(configuration.getString("commands.expand.success"));
+        this.playerJoinTimeout = translateColors(configuration.getString("listener.join.could not load in time"));
+        this.joinTimeoutTime = configuration.getLong("listener.join.load timeout");
+        this.terrainCantPlaceBlock = translateColors(configuration.getString("listener.cannot place block"));
+        this.terrainCantBreakBlock = translateColors(configuration.getString("listener.cannot break block"));
+    }
+
+    private String translateColors(String message) {
+        if (message != null) {
+            return ChatColor.translateAlternateColorCodes('&', message);
+        }
+        return null;
+    }
+
+    private List<String> translateColors(List<String> messages) {
+        return messages.stream()
+                .map(this::translateColors)
+                .collect(Collectors.toList());
+    }
 }

@@ -29,7 +29,7 @@ public class UserListener implements Listener {
     public void onJoin(PlayerLoginEvent event) {
         Player player = event.getPlayer();
         try {
-            User user = plugin.getUserStorage().get(player.getName()).get(200, TimeUnit.MILLISECONDS);
+            User user = plugin.getUserStorage().get(player.getName()).get(plugin.getConstants().joinTimeoutTime, TimeUnit.MILLISECONDS);
             user.updatePlayer();
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, plugin.getConstants().playerJoinTimeout);

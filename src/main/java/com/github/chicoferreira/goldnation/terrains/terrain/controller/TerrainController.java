@@ -8,7 +8,7 @@ public interface TerrainController {
 
     boolean acquire(User user, Location location, int size);
 
-    boolean expand(Terrain terrain, int sizeToExpand);
+    boolean expand(Terrain terrain, int newSize);
 
     boolean hasNearbyTerrains(Location location, int size);
 

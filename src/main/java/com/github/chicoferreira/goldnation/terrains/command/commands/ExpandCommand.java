@@ -45,9 +45,9 @@ public class ExpandCommand extends AbstractCommand {
                         Bank bank = getPlugin().getBank();
 
                         if (bank.get(user) >= price) {
-                            if (!terrainController.canExpand(terrain, newSize)) {
+                            if (terrainController.canExpand(terrain, newSize)) {
                                 if (bank.remove(user, price)) {
-                                    boolean successful = terrainController.expand(terrain, sizeToExpand);
+                                    boolean successful = terrainController.expand(terrain, newSize);
                                     if (successful) {
                                         user.sendMessage(constants.commandExpandSuccessful
                                                 .replace("<price>", NumberUtils.formatNumber(price))

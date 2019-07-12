@@ -47,6 +47,10 @@ public class TerrainStorage {
         return map.get(position2D);
     }
 
+    public Terrain get(Location location) {
+        return get(new Position2D(location.getBlockX(), location.getBlockZ()));
+    }
+
     public Terrain get(UUID uuid) {
         for (Terrain value : map.values()) {
             if (value.getUuid().equals(uuid)) {
@@ -76,6 +80,7 @@ public class TerrainStorage {
         for (Position2D position2D : area2D) {
             Terrain terrain = get(position2D);
             if (terrain != null && !terrain.equals(terrainToIgnore)) {
+                System.out.println("found terrain: " + terrain.toString());
                 return true;
             }
         }

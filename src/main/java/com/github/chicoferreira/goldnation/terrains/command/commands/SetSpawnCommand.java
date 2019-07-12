@@ -6,6 +6,7 @@ import com.github.chicoferreira.goldnation.terrains.command.context.CommandConte
 import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
 import com.github.chicoferreira.goldnation.terrains.terrain.Terrain;
 import com.github.chicoferreira.goldnation.terrains.user.User;
+import com.github.chicoferreira.goldnation.terrains.util.NumberUtils;
 import com.github.chicoferreira.goldnation.terrains.util.Position2D;
 import org.bukkit.Location;
 
@@ -25,7 +26,14 @@ public class SetSpawnCommand extends AbstractCommand {
         if (terrain != null) {
             if (terrain.getOwner().equals(user.getName())) {
                 terrain.setSpawnLocation(location);
-                user.sendMessage(constants.commandSetSpawnSuccess);
+                if (constants.commandSetSpawnSuccess != null) {
+                    user.sendMessage(constants.commandSetSpawnSuccess
+                            .replace("<x>", NumberUtils.formatNumber(location.getX()))
+                            .replace("<y>", NumberUtils.formatNumber(location.getY()))
+                            .replace("<z>", NumberUtils.formatNumber(location.getZ()))
+                            .replace("<yaw>", NumberUtils.formatNumber(location.getYaw()))
+                            .replace("<pitch>", NumberUtils.formatNumber(location.getPitch())));
+                }
             } else {
                 user.sendMessage(constants.commandNotOwner);
             }
