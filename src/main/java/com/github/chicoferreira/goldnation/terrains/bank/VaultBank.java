@@ -22,18 +22,18 @@ public class VaultBank implements Bank {
 
     @Override
     public double get(User user) {
-        return vaultService.bankBalance(user.getName()).balance;
+        return vaultService.getBalance(user.getName());
     }
 
     @Override
     public boolean add(User user, double amount) {
-        EconomyResponse economyResponse = vaultService.bankDeposit(user.getName(), amount);
+        EconomyResponse economyResponse = vaultService.depositPlayer(user.getName(), amount);
         return economyResponse.transactionSuccess();
     }
 
     @Override
     public boolean remove(User user, double amount) {
-        EconomyResponse economyResponse = vaultService.bankWithdraw(user.getName(), amount);
+        EconomyResponse economyResponse = vaultService.withdrawPlayer(user.getName(), amount);
         return economyResponse.transactionSuccess();
     }
 }
