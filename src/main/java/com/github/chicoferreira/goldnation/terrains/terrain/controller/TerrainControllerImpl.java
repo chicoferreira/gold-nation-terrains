@@ -43,6 +43,7 @@ public class TerrainControllerImpl implements TerrainController {
         if (canExpand(terrain, sizeToExpand)) {
             terrain.setTerrainSize(sizeToExpand);
             terrain.setArea(new Area2D(middleLocation.getBlockX(), middleLocation.getBlockZ(), sizeToExpand));
+            plugin.getTerrainStorage().put(terrain);
             placeWalls(terrain);
             return true;
         }
@@ -71,7 +72,7 @@ public class TerrainControllerImpl implements TerrainController {
 
     @Override
     public void create(Terrain terrain) {
-        plugin.getTerrainStorage().create(terrain);
+        plugin.getTerrainStorage().put(terrain);
         plugin.getUserStorage().addTerrain(terrain.getOwner(), terrain);
     }
 

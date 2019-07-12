@@ -5,7 +5,7 @@ database:
     password: "admin"
     database: "admin"
 settings:
-    permission: "terrain.create.<amount>"
+    permission: "terrain.put.<amount>"
     minimum terrain size: 10
     maximum terrain size: 50
     price per block: 50.0
