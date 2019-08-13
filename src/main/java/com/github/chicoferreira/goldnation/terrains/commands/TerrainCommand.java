@@ -1,4 +1,4 @@
-package com.github.chicoferreira.goldnation.terrains.command.commands;
+package com.github.chicoferreira.goldnation.terrains.commands;
 
 import com.github.chicoferreira.goldnation.terrains.command.HelpAbstractCommand;
 import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
@@ -17,7 +17,9 @@ public class TerrainCommand extends HelpAbstractCommand {
                 new PvpToggleCommand(getPlugin()),
                 new FriendAddCommand(getPlugin()),
                 new FriendRemoveCommand(getPlugin()),
-                new SetSpawnCommand(getPlugin())
+                new SetSpawnCommand(getPlugin()),
+                new AcquireCommand(getPlugin()),
+                new SellCommand(getPlugin())
         );
     }
 

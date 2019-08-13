@@ -2,11 +2,11 @@ package com.github.chicoferreira.goldnation.terrains;
 
 import com.github.chicoferreira.goldnation.terrains.bank.Bank;
 import com.github.chicoferreira.goldnation.terrains.bank.VaultBank;
-import com.github.chicoferreira.goldnation.terrains.command.commands.TerrainCommand;
 import com.github.chicoferreira.goldnation.terrains.command.executor.CommandExecutor;
 import com.github.chicoferreira.goldnation.terrains.command.executor.CommandExecutorImpl;
 import com.github.chicoferreira.goldnation.terrains.command.recorder.BukkitCommandRecorder;
 import com.github.chicoferreira.goldnation.terrains.command.recorder.CommandRecorder;
+import com.github.chicoferreira.goldnation.terrains.commands.TerrainCommand;
 import com.github.chicoferreira.goldnation.terrains.config.Configuration;
 import com.github.chicoferreira.goldnation.terrains.config.bukkit.BukkitConfiguration;
 import com.github.chicoferreira.goldnation.terrains.database.credentials.DatabaseCredentials;

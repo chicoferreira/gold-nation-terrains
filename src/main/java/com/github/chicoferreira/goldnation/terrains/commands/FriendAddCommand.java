@@ -1,4 +1,4 @@
-package com.github.chicoferreira.goldnation.terrains.command.commands;
+package com.github.chicoferreira.goldnation.terrains.commands;
 
 import com.github.chicoferreira.goldnation.terrains.Constants;
 import com.github.chicoferreira.goldnation.terrains.command.AbstractCommand;
@@ -9,14 +9,15 @@ import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
 import com.github.chicoferreira.goldnation.terrains.terrain.Terrain;
 import com.github.chicoferreira.goldnation.terrains.user.User;
 import com.github.chicoferreira.goldnation.terrains.util.Position2D;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
-public class PvpToggleCommand extends AbstractCommand {
+public class FriendAddCommand extends AbstractCommand {
 
-    public PvpToggleCommand(TerrainsPlugin plugin) {
-        super(plugin, "pvp", "Troca o estado do pvp do terreno.");
-        setParameters(Parameter.of("estado", VariableTypes.BOOLEAN));
-        setPermission("goldnation.terrains.pvp");
+    public FriendAddCommand(TerrainsPlugin plugin) {
+        super(plugin, "addamigo", "Adiciona um amigo ao terreno.");
+        setPermission("goldnation.terrains.addfriend");
+        setParameters(Parameter.ofMandatory("amigo", VariableTypes.STRING));
     }
 
     @Override
@@ -26,16 +27,23 @@ public class PvpToggleCommand extends AbstractCommand {
         Terrain terrain = getPlugin().getTerrainStorage().get(new Position2D(location.getBlockX(), location.getBlockZ()));
         Constants constants = getPlugin().getConstants();
 
+        String friendName = (String) commandContexts.get("amigo").getValue();
+
         if (terrain != null) {
             if (terrain.getOwner().equals(user.getName())) {
-
-                boolean state = (boolean) commandContexts.get("estado").getOrElse(!terrain.isPvpEnabled());
-                terrain.setPvpEnabled(state);
-
-                if (state) {
-                    user.sendMessage(constants.commandTogglePvpEnabled);
+                if (!friendName.equalsIgnoreCase(user.getName())) {
+                    if (Bukkit.getPlayerExact(friendName) != null) {
+                        if (!terrain.getTrustedUsers().contains(friendName)) {
+                            terrain.getTrustedUsers().add(friendName);
+                            user.sendMessage(constants.commandFriendAdded.replace("<friend>", friendName));
+                        } else {
+                            user.sendMessage(constants.commandFriendAlreadyAdded.replace("<friend>", friendName));
+                        }
+                    } else {
+                        user.sendMessage(constants.commandPlayerOffline);
+                    }
                 } else {
-                    user.sendMessage(constants.commandTogglePvpDisabled);
+                    user.sendMessage(constants.commandFriendSelfAdd);
                 }
             } else {
                 user.sendMessage(constants.commandNotOwner);

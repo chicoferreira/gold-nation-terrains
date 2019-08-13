@@ -3,6 +3,7 @@ package com.github.chicoferreira.goldnation.terrains.terrain;
 import com.github.chicoferreira.goldnation.terrains.util.Area2D;
 import org.bukkit.Location;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -21,6 +22,9 @@ public class Terrain {
     private boolean pvpEnabled;
     private List<String> trustedUsers;
 
+    private boolean onSale;
+    private BigDecimal sellPrice;
+
     public Terrain(UUID uuid, String owner, int terrainSize, Area2D area, Location spawnLocation, Location middleLocation, boolean pvpEnabled, List<String> trustedUsers) {
         this.uuid = uuid;
         this.owner = owner;
@@ -38,6 +42,10 @@ public class Terrain {
 
     public String getOwner() {
         return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public int getTerrainSize() {
@@ -82,6 +90,22 @@ public class Terrain {
 
     public boolean isAllowed(String name) {
         return name.equals(this.getOwner()) || getTrustedUsers().contains(name);
+    }
+
+    public BigDecimal getSellPrice() {
+        return sellPrice;
+    }
+
+    public void setSellPrice(BigDecimal sellPrice) {
+        this.sellPrice = sellPrice;
+    }
+
+    public boolean isOnSale() {
+        return onSale;
+    }
+
+    public void setOnSale(boolean onSale) {
+        this.onSale = onSale;
     }
 
     @Override

@@ -4,9 +4,11 @@ import com.github.chicoferreira.goldnation.terrains.terrain.Terrain;
 import com.github.chicoferreira.goldnation.terrains.user.User;
 import org.bukkit.Location;
 
+import java.math.BigDecimal;
+
 public interface TerrainController {
 
-    boolean acquire(User user, Location location, int size);
+    boolean buy(User user, Location location, int size);
 
     boolean expand(Terrain terrain, int newSize);
 
@@ -22,5 +24,10 @@ public interface TerrainController {
 
     void create(Terrain terrain);
 
+    void putUpForSale(Terrain terrain, BigDecimal bigDecimal);
+
+    void removeFromSale(Terrain terrain);
+
+    void acquire(User user, Terrain terrain);
 
 }

@@ -83,6 +83,16 @@ commands:
         not enough money: "&cVocê precisa de <price> para expandir o seu terreno <size> blocos."
         nearby terrains: "&cExistem terrenos pelos lugares que você quer expandir."
         success: "&eExpandido o terreno <sizeToExpand> blocos por &f<price> &ecoins. Agora você tem um terreno de &f<newSize>x<newSize>&e."
+    sell:
+        removed from sale: "&eRetirado terreno de venda."
+        not in sale: "&cEsse terreno não está à venda."
+        put up: "&eTerreno colocado à venda por &f<price> &ecoins."
+    acquire:
+        not in sale: "&cEsse terreno não está à venda."
+        owned: "&cVocê não pode comprar um terreno seu.\n&cSe quiser tirar de à venda use /terreno vender retirar."
+        not enough money: "&cVocê precisa de ter pelo menos <price> coins para adquirir esse terreno."
+        success: "&eAdquirido terreno de &f<owner> &epor &f<price> &ecoins."
+        success owner: "&f<buyer> &eadquiriu seu terreno por &f<price> &ecoins."
 listener:
     join:
         could not load in time: "&cNão foi possível carregar as suas informações.&r\n&cPor favor, tente novamente."

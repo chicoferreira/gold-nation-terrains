@@ -1,4 +1,4 @@
-package com.github.chicoferreira.goldnation.terrains.command.commands;
+package com.github.chicoferreira.goldnation.terrains.commands;
 
 import com.github.chicoferreira.goldnation.terrains.Constants;
 import com.github.chicoferreira.goldnation.terrains.bank.Bank;
@@ -7,53 +7,45 @@ import com.github.chicoferreira.goldnation.terrains.command.context.CommandConte
 import com.github.chicoferreira.goldnation.terrains.command.parameter.Parameter;
 import com.github.chicoferreira.goldnation.terrains.command.variable.types.VariableTypes;
 import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
-import com.github.chicoferreira.goldnation.terrains.terrain.Terrain;
 import com.github.chicoferreira.goldnation.terrains.terrain.controller.TerrainController;
 import com.github.chicoferreira.goldnation.terrains.user.User;
 import com.github.chicoferreira.goldnation.terrains.util.NumberUtils;
-import com.github.chicoferreira.goldnation.terrains.util.Position2D;
 import org.bukkit.Location;
 
-public class ExpandCommand extends AbstractCommand {
+public class BuyCommand extends AbstractCommand {
 
     private TerrainController terrainController;
 
-    public ExpandCommand(TerrainsPlugin plugin) {
-        super(plugin, "expandir", "Expande um terreno.");
+    public BuyCommand(TerrainsPlugin plugin) {
+        super(plugin, "comprar", "Compra um terreno.");
         this.terrainController = plugin.getTerrainController();
-        setPermission("goldnation.terrains.expand");
+        setPermission("goldnation.terrains.buy");
 
         setParameters(Parameter.ofMandatory("tamanho", VariableTypes.INTEGER));
     }
 
     @Override
-    public boolean execute(User user, CommandContexts commandContexts) {
-        Location location = user.getPlayer().getLocation();
+    public boolean execute(User user, CommandContexts contexts) {
+        int size = (int) contexts.get("tamanho").getValue();
 
-        Terrain terrain = getPlugin().getTerrainStorage().get(new Position2D(location.getBlockX(), location.getBlockZ()));
         Constants constants = getPlugin().getConstants();
 
-        int sizeToExpand = (int) commandContexts.get("tamanho").getValue();
-
-        if (terrain != null) {
-            if (terrain.getOwner().equals(user.getName())) {
-
-                int newSize = terrain.getTerrainSize() + sizeToExpand;
-
-                if (newSize >= constants.minTerrainSize) {
-                    if (newSize <= constants.maxTerrainSize) {
-                        double price = terrainController.calculateExpansionPrice(terrain, newSize);
+        if (getPlugin().getUserTerrainLimitProvider().get(user) > user.getTerrainList().size()) {
+            if (user.getPlayer().getLocation().getWorld().getName().equals(getPlugin().getConstants().allowedWorld)) {
+                if (size >= constants.minTerrainSize) {
+                    if (size <= constants.maxTerrainSize) {
+                        double price = terrainController.calculatePrice(size);
                         Bank bank = getPlugin().getBank();
 
                         if (bank.get(user) >= price) {
-                            if (terrainController.canExpand(terrain, newSize)) {
+                            Location location = user.getPlayer().getLocation();
+                            if (!terrainController.hasNearbyTerrains(location, size)) {
                                 if (bank.remove(user, price)) {
-                                    boolean successful = terrainController.expand(terrain, newSize);
+                                    boolean successful = terrainController.buy(user, user.getPlayer().getLocation(), size);
                                     if (successful) {
-                                        user.sendMessage(constants.commandExpandSuccessful
+                                        user.sendMessage(constants.commandBuySuccessful
                                                 .replace("<price>", NumberUtils.formatNumber(price))
-                                                .replace("<sizeToExpand>", Integer.toString(sizeToExpand))
-                                                .replace("<newSize>", Integer.toString(newSize)));
+                                                .replace("<size>", Integer.toString(size)));
                                     } else {
                                         user.sendMessage(constants.commandErrorOccured);
                                     }
@@ -62,12 +54,12 @@ public class ExpandCommand extends AbstractCommand {
                                     user.sendMessage(constants.commandCouldntModifyMoney);
                                 }
                             } else {
-                                user.sendMessage(constants.commandExpandNearbyTerrains);
+                                user.sendMessage(constants.commandBuyNearbyTerrains);
                             }
                         } else {
-                            user.sendMessage(constants.commandExpandNotEnoughMoney
+                            user.sendMessage(constants.commandBuyNotEnoughMoney
                                     .replace("<price>", NumberUtils.formatNumber(price))
-                                    .replace("<size>", Integer.toString(sizeToExpand)));
+                                    .replace("<size>", Integer.toString(size)));
                         }
                     } else {
                         user.sendMessage(constants.commandSizeHigherThanMax);
@@ -76,11 +68,12 @@ public class ExpandCommand extends AbstractCommand {
                     user.sendMessage(constants.commandSizeLowerThanMin);
                 }
             } else {
-                user.sendMessage(constants.commandNotOwner);
+                user.sendMessage(constants.commandBuyNotInWorld);
             }
         } else {
-            user.sendMessage(constants.commandNotInTerrain);
+            user.sendMessage(constants.commandBuyLimit);
         }
+
         return false;
     }
 }

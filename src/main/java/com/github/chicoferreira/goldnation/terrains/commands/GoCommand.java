@@ -1,4 +1,4 @@
-package com.github.chicoferreira.goldnation.terrains.command.commands;
+package com.github.chicoferreira.goldnation.terrains.commands;
 
 import com.github.chicoferreira.goldnation.terrains.command.AbstractCommand;
 import com.github.chicoferreira.goldnation.terrains.command.context.CommandContexts;

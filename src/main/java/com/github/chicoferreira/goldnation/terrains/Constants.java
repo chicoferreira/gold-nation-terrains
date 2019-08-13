@@ -78,6 +78,16 @@ public class Constants {
     public final String terrainCantBreakBlock;
     public final String terrainCantPlaceBlock;
 
+    public final String commandSellRemovedFromSale;
+    public final String commandSellNotInSale;
+    public final String commandSellPutUp;
+
+    public final String commandAcquireOwned;
+    public final String commandAcquireNotInSale;
+    public final String commandAcquireNotEnoughMoney;
+    public final String commandAcquireSuccess;
+    public final String commandAcquireSuccessBuyer;
+
     public Constants(Configuration configuration) {
         this.allowedWorld = configuration.getString("settings.allowed world");
         this.minTerrainSize = configuration.getInt("settings.minumum terrain size");
@@ -132,6 +142,15 @@ public class Constants {
         this.joinTimeoutTime = configuration.getLong("listener.join.load timeout");
         this.terrainCantPlaceBlock = translateColors(configuration.getString("listener.cannot place block"));
         this.terrainCantBreakBlock = translateColors(configuration.getString("listener.cannot break block"));
+
+        this.commandSellRemovedFromSale = translateColors(configuration.getString("commamnds.sell.removed from sale"));
+        this.commandSellNotInSale = translateColors(configuration.getString("commands.sell.not in sale"));
+        this.commandSellPutUp = translateColors(configuration.getString("commands.sell.put up"));
+        this.commandAcquireNotInSale = translateColors(configuration.getString("commands.acquire.not in sale"));
+        this.commandAcquireOwned = translateColors(configuration.getString("commands.acquire.owned"));
+        this.commandAcquireNotEnoughMoney = translateColors(configuration.getString("commands.acquire.not enough money"));
+        this.commandAcquireSuccess = translateColors(configuration.getString("commands.acquire.success"));
+        this.commandAcquireSuccessBuyer = translateColors(configuration.getString("commands.acquire.success owner"));
     }
 
     private String translateColors(String message) {

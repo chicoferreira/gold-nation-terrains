@@ -1,5 +1,6 @@
 package com.github.chicoferreira.goldnation.terrains.terrain.controller;
 
+import com.github.chicoferreira.goldnation.terrains.bank.Bank;
 import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
 import com.github.chicoferreira.goldnation.terrains.terrain.Terrain;
 import com.github.chicoferreira.goldnation.terrains.user.User;
@@ -10,6 +11,7 @@ import com.google.common.collect.Lists;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -24,7 +26,7 @@ public class TerrainControllerImpl implements TerrainController {
     }
 
     @Override
-    public boolean acquire(User user, Location location, int size) {
+    public boolean buy(User user, Location location, int size) {
         Area2D area2D = new Area2D(location.getBlockX(), location.getBlockZ(), size);
         Terrain terrain = new Terrain(UUID.randomUUID(), user.getName(), size, area2D, location, simplify(location), false, Lists.newArrayList());
 
@@ -74,6 +76,40 @@ public class TerrainControllerImpl implements TerrainController {
     public void create(Terrain terrain) {
         plugin.getTerrainStorage().put(terrain);
         plugin.getUserStorage().addTerrain(terrain.getOwner(), terrain);
+    }
+
+    @Override
+    public void putUpForSale(Terrain terrain, BigDecimal bigDecimal) {
+        terrain.setOnSale(true);
+        terrain.setSellPrice(bigDecimal.abs());
+    }
+
+    @Override
+    public void removeFromSale(Terrain terrain) {
+        terrain.setSellPrice(BigDecimal.ZERO);
+        terrain.setOnSale(false);
+    }
+
+    @Override
+    public void acquire(User user, Terrain terrain) {
+        if (!terrain.isOnSale() && terrain.getOwner().equals(user.getName())) {
+            return;
+        }
+
+        Bank bank = plugin.getBank();
+        double sellPrice = terrain.getSellPrice().doubleValue();
+
+        if (bank.get(user) < sellPrice) {
+            return;
+        }
+
+        User terrainOwnerUser = plugin.getUserStorage().get(terrain.getOwner()).join();
+
+        bank.remove(user, sellPrice);
+        bank.add(terrainOwnerUser, sellPrice);
+
+        plugin.getUserStorage().removeTerrain(terrain.getOwner(), terrain);
+        terrain.setOwner(user.getName());
     }
 
     @Override
