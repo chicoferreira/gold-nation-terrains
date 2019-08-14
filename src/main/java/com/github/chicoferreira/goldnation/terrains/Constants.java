@@ -3,6 +3,7 @@ package com.github.chicoferreira.goldnation.terrains;
 import com.github.chicoferreira.goldnation.terrains.config.Configuration;
 import org.bukkit.ChatColor;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -81,6 +82,8 @@ public class Constants {
     public final String commandSellRemovedFromSale;
     public final String commandSellNotInSale;
     public final String commandSellPutUp;
+    public final String commandSellMaxPriceExceeded;
+    public final BigDecimal commandSellMaxPrice;
 
     public final String commandAcquireOwned;
     public final String commandAcquireNotInSale;
@@ -145,7 +148,9 @@ public class Constants {
 
         this.commandSellRemovedFromSale = translateColors(configuration.getString("commamnds.sell.removed from sale"));
         this.commandSellNotInSale = translateColors(configuration.getString("commands.sell.not in sale"));
+        this.commandSellMaxPrice = new BigDecimal(configuration.getString("commands.sell.max price"));
         this.commandSellPutUp = translateColors(configuration.getString("commands.sell.put up"));
+        this.commandSellMaxPriceExceeded = translateColors(configuration.getString("commands.sell.max price exceeded"));
         this.commandAcquireNotInSale = translateColors(configuration.getString("commands.acquire.not in sale"));
         this.commandAcquireOwned = translateColors(configuration.getString("commands.acquire.owned"));
         this.commandAcquireNotEnoughMoney = translateColors(configuration.getString("commands.acquire.not enough money"));

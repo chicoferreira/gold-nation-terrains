@@ -12,7 +12,6 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.dao.BasicDAO;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -50,8 +49,7 @@ public class MongoDatabaseProvider implements DatabaseProvider {
     }
 
     @Override
-    @Nonnull
-    public <T, R> Dao<T> generateDao(Class<R> rClass, @Nonnull Mapper<T, R> mapper) {
+    public <T, R> Dao<T> generateDao(Class<R> rClass, Mapper<T, R> mapper) {
         return new Dao<T>() {
             private BasicDAO<R, String> dao = new BasicDAO<>(rClass, MongoDatabaseProvider.this.getDatastore());
 

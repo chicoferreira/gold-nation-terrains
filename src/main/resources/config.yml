@@ -86,6 +86,8 @@ commands:
     sell:
         removed from sale: "&eRetirado terreno de venda."
         not in sale: "&cEsse terreno não está à venda."
+        max price: 100000
+        max price exceeded: "&cO valor máximo de venda do terreno é <max price>."
         put up: "&eTerreno colocado à venda por &f<price> &ecoins."
     acquire:
         not in sale: "&cEsse terreno não está à venda."

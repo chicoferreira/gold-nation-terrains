@@ -68,6 +68,14 @@ public class SellCommand extends AbstractCommand {
 
         BigDecimal bigDecimal = parse.get().abs();
 
+
+        BigDecimal sellMaxPrice = constants.commandSellMaxPrice;
+        if (bigDecimal.compareTo(sellMaxPrice) < 0) {
+            user.sendMessage(constants.commandSellMaxPriceExceeded
+                    .replace("<max price>", DECIMAL_FORMAT.format(sellMaxPrice)));
+            return false;
+        }
+
         terrainController.putUpForSale(terrain, bigDecimal);
         String formattedBigDecimal = DECIMAL_FORMAT.format(bigDecimal);
 
