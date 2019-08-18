@@ -1,5 +1,7 @@
 package com.github.chicoferreira.goldnation.terrains.user;
 
+import com.github.chicoferreira.goldnation.terrains.inventory.Menu;
+import com.github.chicoferreira.goldnation.terrains.inventory.bridge.impl.BukkitMenuBridge;
 import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -12,7 +14,7 @@ public class User {
     private String name;
     private List<UUID> terrainList;
 
-    private transient Player player;
+    private Player player;
 
     public User(String name) {
         this(name, Lists.newArrayList());
@@ -54,5 +56,9 @@ public class User {
         return "User{" +
                 "name='" + name + '\'' +
                 '}';
+    }
+
+    public void openMenu(Menu menu) {
+        getPlayer().openInventory(BukkitMenuBridge.get().create(menu));
     }
 }

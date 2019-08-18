@@ -33,16 +33,16 @@ public class AbandonCommand extends AbstractCommand {
             if (terrain.getOwner().equals(user.getName())) {
                 if (isInCooldown(user.getName())) {
                     getPlugin().getTerrainController().remove(terrain);
-                    user.sendMessage(getPlugin().getConstants().commandAbandonSuccess);
+                    user.sendMessage(constants.commandAbandonSuccess);
                 } else {
                     putCooldown(user.getName());
-                    user.sendMessage(getPlugin().getConstants().commandAbandonVerification);
+                    user.sendMessage(constants.commandAbandonVerification);
                 }
             } else {
-                user.sendMessage(getPlugin().getConstants().commandNotOwner);
+                user.sendMessage(constants.commandNotOwner);
             }
         } else {
-            user.sendMessage(getPlugin().getConstants().commandNotInTerrain);
+            user.sendMessage(constants.commandNotInTerrain);
         }
         return false;
     }
