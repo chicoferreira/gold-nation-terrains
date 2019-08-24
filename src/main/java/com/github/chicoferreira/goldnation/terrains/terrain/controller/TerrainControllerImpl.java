@@ -113,6 +113,18 @@ public class TerrainControllerImpl implements TerrainController {
     }
 
     @Override
+    public double abandon(User user, Terrain terrain) {
+        remove(terrain);
+        double terrainPrice = calculatePrice(terrain.getSize());
+        double priceMultiplier = plugin.getConstants().abandonPriceMultiplier;
+
+        double calculatedPrice = terrainPrice * priceMultiplier;
+
+        plugin.getBank().add(user, calculatedPrice);
+        return calculatedPrice;
+    }
+
+    @Override
     public void remove(Terrain terrain) {
         plugin.getTerrainStorage().remove(terrain);
         plugin.getUserStorage().removeTerrain(terrain.getOwner(), terrain);

@@ -36,7 +36,7 @@ public class ListTerrainCommand extends AbstractCommand {
                             TextComponent textComponent = new TextComponent(TextComponent.fromLegacyText(constants.commandListFormat
                                     .replace("<index>", Integer.toString(i + 1))
                                     .replace("<owner>", terrain.getOwner())
-                                    .replace("<size>", Integer.toString(terrain.getTerrainSize()))
+                                    .replace("<size>", Integer.toString(terrain.getSize()))
                                     .replace("<areaStartX>", Integer.toString(terrain.getArea().getStartX()))
                                     .replace("<areaStartZ>", Integer.toString(terrain.getArea().getStartZ()))
                                     .replace("<areaEndX>", Integer.toString(terrain.getArea().getEndX()))

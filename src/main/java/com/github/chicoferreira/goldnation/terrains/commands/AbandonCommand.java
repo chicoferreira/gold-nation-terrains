@@ -9,15 +9,17 @@ import com.github.chicoferreira.goldnation.terrains.user.User;
 import com.github.chicoferreira.goldnation.terrains.util.Position2D;
 import org.bukkit.Location;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AbandonCommand extends AbstractCommand {
 
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###.##");
     private Map<String, Long> map;
 
     public AbandonCommand(TerrainsPlugin plugin) {
-        super(plugin, "abandonar", "Abandona o terreno.");
+        super(plugin, "abandonar", "Abandona o terreno recebendo metade.");
         setPermission("goldnation.terrains.abandon");
         this.map = new HashMap<>();
     }
@@ -32,8 +34,10 @@ public class AbandonCommand extends AbstractCommand {
         if (terrain != null) {
             if (terrain.getOwner().equals(user.getName())) {
                 if (isInCooldown(user.getName())) {
-                    getPlugin().getTerrainController().remove(terrain);
-                    user.sendMessage(constants.commandAbandonSuccess);
+                    double moneyReceived = plugin.getTerrainController().abandon(user, terrain);
+                    String format = DECIMAL_FORMAT.format(moneyReceived);
+
+                    user.sendMessage(constants.commandAbandonSuccess.replace("<received>", format));
                 } else {
                     putCooldown(user.getName());
                     user.sendMessage(constants.commandAbandonVerification);

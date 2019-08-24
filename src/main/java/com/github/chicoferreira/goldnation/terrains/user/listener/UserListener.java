@@ -8,9 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 public class UserListener implements Listener {
 
@@ -26,14 +24,15 @@ public class UserListener implements Listener {
     }
 
     @EventHandler
-    public void onJoin(PlayerLoginEvent event) {
+    public void onJoin(PlayerLoginEvent event) throws Exception {
         Player player = event.getPlayer();
         try {
             User user = plugin.getUserStorage().get(player.getName()).get(plugin.getConstants().joinTimeoutTime, TimeUnit.MILLISECONDS);
             user.updatePlayer();
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+        } catch (Exception e) {
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, plugin.getConstants().playerJoinTimeout);
             plugin.getLogger().severe("Couldn't grab '" + player.getName() + "' terrain user info:");
+            throw e;
         }
     }
 }

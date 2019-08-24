@@ -11,7 +11,7 @@ import java.util.List;
 
 public abstract class AbstractCommand implements Command {
 
-    private final TerrainsPlugin plugin;
+    protected final TerrainsPlugin plugin;
 
     private final String name;
     private final String description;

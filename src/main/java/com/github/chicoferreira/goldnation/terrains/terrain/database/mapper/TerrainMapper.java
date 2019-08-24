@@ -21,7 +21,7 @@ public class TerrainMapper implements Mapper<Terrain, TerrainPojo> {
         terrainPojo.setUuid(terrain.getUuid());
 
         terrainPojo.setOwnerName(terrain.getOwner());
-        terrainPojo.setTerrainSize(terrain.getTerrainSize());
+        terrainPojo.setTerrainSize(terrain.getSize());
 
         Area2DPojo area2D = new Area2DPojo();
         area2D.setStartX(terrain.getArea().getStartX());

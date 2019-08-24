@@ -1,11 +1,14 @@
 package com.github.chicoferreira.goldnation.terrains.user;
 
 import com.github.chicoferreira.goldnation.terrains.inventory.Menu;
-import com.github.chicoferreira.goldnation.terrains.inventory.bridge.impl.BukkitMenuBridge;
+import com.github.chicoferreira.goldnation.terrains.inventory.bridge.MenuBridge;
 import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
+import java.lang.ref.Reference;
+import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,7 +17,9 @@ public class User {
     private String name;
     private List<UUID> terrainList;
 
-    private Player player;
+    private Menu openedMenu;
+
+    private Reference<Player> player;
 
     public User(String name) {
         this(name, Lists.newArrayList());
@@ -34,14 +39,22 @@ public class User {
     }
 
     public Player getPlayer() {
-        if (this.player == null || !this.player.isOnline()) {
+        Player player = null;
+        if (
+                this.player == null ||
+                        (player = this.player.get()) == null ||
+                        !player.isOnline()
+        )
             updatePlayer();
-        }
+
         return player;
     }
 
     public void updatePlayer() {
-        this.player = Bukkit.getPlayerExact(name);
+        Player foundedPlayer = Bukkit.getPlayerExact(name);
+        if (foundedPlayer == null) return;
+
+        this.player = new WeakReference<>(foundedPlayer);
     }
 
     public void sendMessage(String message, Object... objects) {
@@ -58,7 +71,21 @@ public class User {
                 '}';
     }
 
-    public void openMenu(Menu menu) {
-        getPlayer().openInventory(BukkitMenuBridge.get().create(menu));
+    public Menu getOpenedMenu() {
+        return openedMenu;
+    }
+
+    public void closeMenu() {
+        getPlayer().closeInventory();
+        removeMenu();
+    }
+
+    public void removeMenu() {
+        this.openedMenu = null;
+    }
+
+    public void openMenu(Menu menu, MenuBridge<Inventory> bridge) {
+        getPlayer().openInventory(bridge.create(menu));
+        this.openedMenu = menu;
     }
 }

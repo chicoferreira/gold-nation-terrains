@@ -53,7 +53,7 @@ commands:
     abandon:
         verification: "&eDigite o comando novamente para abandonar o terreno."
         verification duration: 3000 # 3 seconds
-        success: "&eAbandonado terreno com sucesso. Você pode comprá-lo novamente se mudar de ideias."
+        success: "&eAbandonado terreno com sucesso. Recebeu <received> coins. Você pode comprá-lo novamente se mudar de ideias."
     list:
         empty: "&cVocê não tem terrenos."
         success:

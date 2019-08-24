@@ -4,15 +4,20 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 
 import java.util.function.Consumer;
 
-public class StackBuilder {
+public class StackBuilder<M extends ItemMeta, D extends MaterialData> {
 
     private ItemStack itemStack;
 
     public StackBuilder(Material material) {
-        this.itemStack = new ItemStack(material);
+        this(new ItemStack(material));
+    }
+
+    public StackBuilder(ItemStack itemStack) {
+        this.itemStack = itemStack;
     }
 
     public static StackBuilder newBuilder() {
@@ -35,11 +40,17 @@ public class StackBuilder {
     }
 
     public StackBuilder setDurability(byte durability) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        if (itemMeta instanceof Damageable) {
-            Damageable damageable = (Damageable) itemMeta;
-            damageable.setDamage(durability);
-        }
+        applyItemMetaChanges(itemMeta -> {
+            if (itemMeta instanceof Damageable) {
+                Damageable damageable = (Damageable) itemMeta;
+                damageable.setDamage(durability);
+            }
+        });
+        return this;
+    }
+
+    public StackBuilder applyData(Consumer<D> consumer) {
+        consumer.accept((D) itemStack.getData());
         return this;
     }
 
@@ -52,8 +63,8 @@ public class StackBuilder {
         return itemStack.clone();
     }
 
-    private void applyItemMetaChanges(Consumer<ItemMeta> itemMetaConsumer) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
+    private void applyItemMetaChanges(Consumer<M> itemMetaConsumer) {
+        M itemMeta = (M) itemStack.getItemMeta();
         itemMetaConsumer.accept(itemMeta);
         itemStack.setItemMeta(itemMeta);
     }

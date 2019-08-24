@@ -30,4 +30,6 @@ public interface TerrainController {
 
     void acquire(User user, Terrain terrain);
 
+    double abandon(User user, Terrain terrain);
+
 }

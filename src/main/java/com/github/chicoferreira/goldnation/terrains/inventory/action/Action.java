@@ -2,8 +2,7 @@ package com.github.chicoferreira.goldnation.terrains.inventory.action;
 
 import com.github.chicoferreira.goldnation.terrains.inventory.action.event.ActionEvent;
 
-public interface Action {
+import java.util.function.Consumer;
 
-    void run(ActionEvent actionEvent);
-
+public interface Action extends Consumer<ActionEvent> {
 }

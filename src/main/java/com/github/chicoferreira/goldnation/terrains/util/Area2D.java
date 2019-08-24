@@ -4,7 +4,6 @@ import com.github.chicoferreira.goldnation.terrains.user.User;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -107,7 +106,6 @@ public class Area2D implements Iterable<Position2D> {
         return result;
     }
 
-    @Nonnull
     @Override
     public Iterator<Position2D> iterator() {
         return new AreaIterator(startX, startZ, endX, endZ);

@@ -90,6 +90,7 @@ public class Constants {
     public final String commandAcquireNotEnoughMoney;
     public final String commandAcquireSuccess;
     public final String commandAcquireSuccessBuyer;
+    public final double abandonPriceMultiplier = 0;
 
     public Constants(Configuration configuration) {
         this.allowedWorld = configuration.getString("settings.allowed world");

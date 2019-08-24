@@ -38,7 +38,7 @@ public class ExpandCommand extends AbstractCommand {
         if (terrain != null) {
             if (terrain.getOwner().equals(user.getName())) {
 
-                int newSize = terrain.getTerrainSize() + sizeToExpand;
+                int newSize = terrain.getSize() + sizeToExpand;
 
                 if (newSize >= constants.minTerrainSize) {
                     if (newSize <= constants.maxTerrainSize) {

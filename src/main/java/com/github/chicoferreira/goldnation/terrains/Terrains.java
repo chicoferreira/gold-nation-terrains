@@ -22,6 +22,7 @@ import com.github.chicoferreira.goldnation.terrains.terrain.limit.BukkitUserTerr
 import com.github.chicoferreira.goldnation.terrains.terrain.limit.UserTerrainLimitProvider;
 import com.github.chicoferreira.goldnation.terrains.terrain.listener.TerrainListener;
 import com.github.chicoferreira.goldnation.terrains.user.UserStorage;
+import com.github.chicoferreira.goldnation.terrains.user.listener.MenuListener;
 import com.github.chicoferreira.goldnation.terrains.user.listener.UserListener;
 
 import java.util.logging.Level;
@@ -61,6 +62,7 @@ public class Terrains extends TerrainsPluginBukkit {
 
         this.userStorage = new UserStorage(this);
         registerListener(new UserListener(this));
+        registerListener(new MenuListener(getUserStorage()));
 
         this.bank = new VaultBank();
         if (!this.bank.init()) {

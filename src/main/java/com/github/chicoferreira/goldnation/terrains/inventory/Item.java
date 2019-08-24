@@ -17,10 +17,6 @@ public class Item {
         this.action = action;
     }
 
-    public Item(Item item) {
-        this(item.getSlot(), item.getItemStack().clone(), item.getAction());
-    }
-
     public int getSlot() {
         return slot;
     }

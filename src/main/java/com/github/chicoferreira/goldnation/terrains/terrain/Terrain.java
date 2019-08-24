@@ -48,7 +48,7 @@ public class Terrain {
         this.owner = owner;
     }
 
-    public int getTerrainSize() {
+    public int getSize() {
         return terrainSize;
     }
 

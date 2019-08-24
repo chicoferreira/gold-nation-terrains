@@ -30,7 +30,7 @@ public class InfoCommand extends AbstractCommand {
             for (String message : constants.commandInfo) {
                 user.sendMessage(message
                         .replace("<owner>", terrain.getOwner())
-                        .replace("<size>", Integer.toString(terrain.getTerrainSize()))
+                        .replace("<size>", Integer.toString(terrain.getSize()))
                         .replace("<areaStartX>", Integer.toString(terrain.getArea().getStartX()))
                         .replace("<areaStartZ>", Integer.toString(terrain.getArea().getStartZ()))
                         .replace("<areaEndX>", Integer.toString(terrain.getArea().getEndX()))
