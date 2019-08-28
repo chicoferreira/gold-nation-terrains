@@ -23,7 +23,6 @@ public class MenuListener implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
-        // TODO: DEBUG
         Inventory inventory = event.getView().getTopInventory();
         if (inventory == null) return;
 

@@ -5,8 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Wool;
 
-// TODO: test
-
 public class WoolBuilder extends StackBuilder<WoolBuilder, ItemMeta, Wool> {
 
     WoolBuilder() {
