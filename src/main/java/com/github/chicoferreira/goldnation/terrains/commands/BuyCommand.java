@@ -6,11 +6,17 @@ import com.github.chicoferreira.goldnation.terrains.command.AbstractCommand;
 import com.github.chicoferreira.goldnation.terrains.command.context.CommandContexts;
 import com.github.chicoferreira.goldnation.terrains.command.parameter.Parameter;
 import com.github.chicoferreira.goldnation.terrains.command.variable.types.VariableTypes;
+import com.github.chicoferreira.goldnation.terrains.inventory.Menu;
+import com.github.chicoferreira.goldnation.terrains.inventory.action.Action;
+import com.github.chicoferreira.goldnation.terrains.inventory.defaults.ConfirmationMenu;
 import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
 import com.github.chicoferreira.goldnation.terrains.terrain.controller.TerrainController;
 import com.github.chicoferreira.goldnation.terrains.user.User;
 import com.github.chicoferreira.goldnation.terrains.util.NumberUtils;
 import org.bukkit.Location;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BuyCommand extends AbstractCommand {
 
@@ -30,7 +36,7 @@ public class BuyCommand extends AbstractCommand {
 
         Constants constants = getPlugin().getConstants();
 
-        if (getPlugin().getUserTerrainLimitProvider().get(user) > user.getTerrainList().size()) {
+        if (getPlugin().getUserTerrainLimitProvider().get(user) > user.getTerrains().size()) {
             if (user.getPlayer().getLocation().getWorld().getName().equals(getPlugin().getConstants().allowedWorld)) {
                 if (size >= constants.minTerrainSize) {
                     if (size <= constants.maxTerrainSize) {
@@ -41,15 +47,27 @@ public class BuyCommand extends AbstractCommand {
                             Location location = user.getPlayer().getLocation();
                             if (!terrainController.hasNearbyTerrains(location, size)) {
                                 if (bank.remove(user, price)) {
-                                    boolean successful = terrainController.buy(user, user.getPlayer().getLocation(), size);
-                                    if (successful) {
-                                        user.sendMessage(constants.commandBuySuccessful
-                                                .replace("<price>", NumberUtils.formatNumber(price))
-                                                .replace("<size>", Integer.toString(size)));
-                                    } else {
-                                        user.sendMessage(constants.commandErrorOccured);
-                                    }
-                                    return successful;
+                                    Action action = actionEvent -> {
+                                        boolean successful = terrainController.buy(user, user.getPlayer().getLocation(), size);
+                                        user.closeMenu();
+                                        if (successful) {
+                                            user.sendMessage(constants.commandBuySuccessful
+                                                    .replace("<price>", NumberUtils.formatNumber(price))
+                                                    .replace("<size>", Integer.toString(size)));
+                                        } else {
+                                            user.sendMessage(constants.commandErrorOccured);
+                                        }
+                                    };
+
+                                    List<String> commandBuyConfirmation = new ArrayList<>(constants.commandBuyConfirmation);
+                                    commandBuyConfirmation.replaceAll(s -> s
+                                            .replace("<price>", NumberUtils.formatNumber(price))
+                                            .replace("<size>", Integer.toString(size)));
+
+                                    Menu menu = new ConfirmationMenu(action, user, commandBuyConfirmation);
+
+                                    user.openMenu(menu, plugin.getMenuBridge());
+                                    return true;
                                 } else {
                                     user.sendMessage(constants.commandCouldntModifyMoney);
                                 }

@@ -5,11 +5,13 @@ import com.github.chicoferreira.goldnation.terrains.bank.Bank;
 import com.github.chicoferreira.goldnation.terrains.command.executor.CommandExecutor;
 import com.github.chicoferreira.goldnation.terrains.command.recorder.CommandRecorder;
 import com.github.chicoferreira.goldnation.terrains.database.provider.DatabaseProvider;
+import com.github.chicoferreira.goldnation.terrains.inventory.bridge.MenuBridge;
 import com.github.chicoferreira.goldnation.terrains.scheduler.Scheduler;
 import com.github.chicoferreira.goldnation.terrains.terrain.TerrainStorage;
 import com.github.chicoferreira.goldnation.terrains.terrain.controller.TerrainController;
 import com.github.chicoferreira.goldnation.terrains.terrain.limit.UserTerrainLimitProvider;
 import com.github.chicoferreira.goldnation.terrains.user.UserStorage;
+import org.bukkit.inventory.Inventory;
 
 import java.util.logging.Logger;
 
@@ -42,4 +44,6 @@ public interface TerrainsPlugin {
     DatabaseProvider getDatabaseProvider();
 
     UserTerrainLimitProvider getUserTerrainLimitProvider();
+
+    MenuBridge<Inventory> getMenuBridge();
 }

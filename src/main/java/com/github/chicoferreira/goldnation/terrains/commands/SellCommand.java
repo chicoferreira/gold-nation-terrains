@@ -5,6 +5,9 @@ import com.github.chicoferreira.goldnation.terrains.command.AbstractCommand;
 import com.github.chicoferreira.goldnation.terrains.command.context.CommandContexts;
 import com.github.chicoferreira.goldnation.terrains.command.parameter.Parameter;
 import com.github.chicoferreira.goldnation.terrains.command.variable.types.VariableTypes;
+import com.github.chicoferreira.goldnation.terrains.inventory.Menu;
+import com.github.chicoferreira.goldnation.terrains.inventory.action.Action;
+import com.github.chicoferreira.goldnation.terrains.inventory.defaults.ConfirmationMenu;
 import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
 import com.github.chicoferreira.goldnation.terrains.terrain.Terrain;
 import com.github.chicoferreira.goldnation.terrains.terrain.controller.TerrainController;
@@ -15,6 +18,8 @@ import org.bukkit.Location;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SellCommand extends AbstractCommand {
 
@@ -77,10 +82,20 @@ public class SellCommand extends AbstractCommand {
             return false;
         }
 
-        terrainController.putUpForSale(terrain, bigDecimal);
         String formattedBigDecimal = DECIMAL_FORMAT.format(bigDecimal);
 
-        user.sendMessage(constants.commandSellPutUp.replace("<price>", formattedBigDecimal));
+        List<String> commandSellConfirmation = new ArrayList<>(constants.commandSellConfirmation);
+        commandSellConfirmation.replaceAll(s -> s.replace("<price>", formattedBigDecimal));
+
+        Action action = actionEvent -> {
+            terrainController.putUpForSale(terrain, bigDecimal);
+
+            user.sendMessage(constants.commandSellPutUp.replace("<price>", formattedBigDecimal));
+        };
+
+        Menu menu = new ConfirmationMenu(action, user, commandSellConfirmation);
+
+        user.openMenu(menu, plugin.getMenuBridge());
 
         return true;
     }

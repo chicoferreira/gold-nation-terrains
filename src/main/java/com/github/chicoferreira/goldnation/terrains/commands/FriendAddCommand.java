@@ -5,12 +5,18 @@ import com.github.chicoferreira.goldnation.terrains.command.AbstractCommand;
 import com.github.chicoferreira.goldnation.terrains.command.context.CommandContexts;
 import com.github.chicoferreira.goldnation.terrains.command.parameter.Parameter;
 import com.github.chicoferreira.goldnation.terrains.command.variable.types.VariableTypes;
+import com.github.chicoferreira.goldnation.terrains.inventory.Menu;
+import com.github.chicoferreira.goldnation.terrains.inventory.action.Action;
+import com.github.chicoferreira.goldnation.terrains.inventory.defaults.ConfirmationMenu;
 import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
 import com.github.chicoferreira.goldnation.terrains.terrain.Terrain;
 import com.github.chicoferreira.goldnation.terrains.user.User;
 import com.github.chicoferreira.goldnation.terrains.util.Position2D;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FriendAddCommand extends AbstractCommand {
 
@@ -34,8 +40,18 @@ public class FriendAddCommand extends AbstractCommand {
                 if (!friendName.equalsIgnoreCase(user.getName())) {
                     if (Bukkit.getPlayerExact(friendName) != null) {
                         if (!terrain.getTrustedUsers().contains(friendName)) {
-                            terrain.getTrustedUsers().add(friendName);
-                            user.sendMessage(constants.commandFriendAdded.replace("<friend>", friendName));
+                            List<String> commandFriendAddConfirmation = new ArrayList<>(constants.commandFriendAddConfirmation);
+                            commandFriendAddConfirmation.replaceAll(s -> s
+                                    .replace("<friend>", friendName)
+                            );
+
+                            Action action = actionEvent -> {
+                                terrain.getTrustedUsers().add(friendName);
+                                user.sendMessage(constants.commandFriendAdded.replace("<friend>", friendName));
+                            };
+
+                            Menu menu = new ConfirmationMenu(action, user, commandFriendAddConfirmation);
+                            user.openMenu(menu, plugin.getMenuBridge());
                         } else {
                             user.sendMessage(constants.commandFriendAlreadyAdded.replace("<friend>", friendName));
                         }

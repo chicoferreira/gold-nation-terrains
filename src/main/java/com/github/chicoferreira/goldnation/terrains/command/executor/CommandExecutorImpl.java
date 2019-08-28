@@ -43,7 +43,7 @@ public class CommandExecutorImpl implements CommandExecutor {
 
             index++;
         }
-        if (player.hasPermission(command.getPermission()) || player.isOp()) {
+        if (command.getPermission() == null || player.hasPermission(command.getPermission()) || player.isOp()) {
             args = Arrays.copyOfRange(args, index, args.length);
 
             List<CommandContext> commandContexts = new ArrayList<>();

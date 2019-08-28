@@ -7,8 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-import java.lang.ref.Reference;
-import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,7 +17,7 @@ public class User {
 
     private Menu openedMenu;
 
-    private Reference<Player> player;
+    private Player player;
 
     public User(String name) {
         this(name, Lists.newArrayList());
@@ -34,27 +32,19 @@ public class User {
         return name;
     }
 
-    public List<UUID> getTerrainList() {
+    public List<UUID> getTerrains() {
         return terrainList;
     }
 
     public Player getPlayer() {
-        Player player = null;
-        if (
-                this.player == null ||
-                        (player = this.player.get()) == null ||
-                        !player.isOnline()
-        )
+        if (this.player == null) {
             updatePlayer();
-
+        }
         return player;
     }
 
     public void updatePlayer() {
-        Player foundedPlayer = Bukkit.getPlayerExact(name);
-        if (foundedPlayer == null) return;
-
-        this.player = new WeakReference<>(foundedPlayer);
+        this.player = Bukkit.getPlayerExact(name);
     }
 
     public void sendMessage(String message, Object... objects) {

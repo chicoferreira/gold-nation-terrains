@@ -12,6 +12,8 @@ import com.github.chicoferreira.goldnation.terrains.config.bukkit.BukkitConfigur
 import com.github.chicoferreira.goldnation.terrains.database.credentials.DatabaseCredentials;
 import com.github.chicoferreira.goldnation.terrains.database.mongo.MongoDatabaseProvider;
 import com.github.chicoferreira.goldnation.terrains.database.provider.DatabaseProvider;
+import com.github.chicoferreira.goldnation.terrains.inventory.bridge.MenuBridge;
+import com.github.chicoferreira.goldnation.terrains.inventory.bridge.impl.BukkitMenuBridge;
 import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPluginBukkit;
 import com.github.chicoferreira.goldnation.terrains.scheduler.BukkitScheduler;
 import com.github.chicoferreira.goldnation.terrains.scheduler.Scheduler;
@@ -141,5 +143,10 @@ public class Terrains extends TerrainsPluginBukkit {
     @Override
     public UserTerrainLimitProvider getUserTerrainLimitProvider() {
         return userTerrainLimitProvider;
+    }
+
+    @Override
+    public MenuBridge getMenuBridge() {
+        return new BukkitMenuBridge();
     }
 }

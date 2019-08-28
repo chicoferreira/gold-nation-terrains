@@ -16,7 +16,7 @@ public class HelpAbstractCommand extends AbstractCommand {
         if (help != null) {
             return help.execute(user, commandContexts);
         }
-        return true;
+        return false;
     }
 
 }

@@ -24,7 +24,7 @@ public class UserMapper implements Mapper<User, UserPojo> {
         UserPojo userPojo = new UserPojo();
 
         userPojo.setName(user.getName());
-        List<UUID> terrainList = user.getTerrainList();
+        List<UUID> terrainList = user.getTerrains();
         if (terrainList != null) {
             userPojo.setTerrainList(terrainList.stream()
                     .map(UUID::toString)

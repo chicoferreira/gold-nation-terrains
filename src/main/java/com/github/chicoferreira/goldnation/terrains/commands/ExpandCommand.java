@@ -6,6 +6,9 @@ import com.github.chicoferreira.goldnation.terrains.command.AbstractCommand;
 import com.github.chicoferreira.goldnation.terrains.command.context.CommandContexts;
 import com.github.chicoferreira.goldnation.terrains.command.parameter.Parameter;
 import com.github.chicoferreira.goldnation.terrains.command.variable.types.VariableTypes;
+import com.github.chicoferreira.goldnation.terrains.inventory.Menu;
+import com.github.chicoferreira.goldnation.terrains.inventory.action.Action;
+import com.github.chicoferreira.goldnation.terrains.inventory.defaults.ConfirmationMenu;
 import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
 import com.github.chicoferreira.goldnation.terrains.terrain.Terrain;
 import com.github.chicoferreira.goldnation.terrains.terrain.controller.TerrainController;
@@ -13,6 +16,9 @@ import com.github.chicoferreira.goldnation.terrains.user.User;
 import com.github.chicoferreira.goldnation.terrains.util.NumberUtils;
 import com.github.chicoferreira.goldnation.terrains.util.Position2D;
 import org.bukkit.Location;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExpandCommand extends AbstractCommand {
 
@@ -48,16 +54,28 @@ public class ExpandCommand extends AbstractCommand {
                         if (bank.get(user) >= price) {
                             if (terrainController.canExpand(terrain, newSize)) {
                                 if (bank.remove(user, price)) {
-                                    boolean successful = terrainController.expand(terrain, newSize);
-                                    if (successful) {
-                                        user.sendMessage(constants.commandExpandSuccessful
-                                                .replace("<price>", NumberUtils.formatNumber(price))
-                                                .replace("<sizeToExpand>", Integer.toString(sizeToExpand))
-                                                .replace("<newSize>", Integer.toString(newSize)));
-                                    } else {
-                                        user.sendMessage(constants.commandErrorOccured);
-                                    }
-                                    return successful;
+                                    Action action = actionEvent -> {
+                                        boolean successful = terrainController.expand(terrain, newSize);
+                                        if (successful) {
+                                            user.sendMessage(constants.commandExpandSuccessful
+                                                    .replace("<price>", NumberUtils.formatNumber(price))
+                                                    .replace("<sizeToExpand>", Integer.toString(sizeToExpand))
+                                                    .replace("<newSize>", Integer.toString(newSize)));
+                                        } else {
+                                            user.sendMessage(constants.commandErrorOccured);
+                                        }
+                                    };
+
+                                    List<String> commandExpandConfirmation = new ArrayList<>(constants.commandExpandConfirmation);
+                                    commandExpandConfirmation.replaceAll(s -> s
+                                            .replace("<price>", NumberUtils.formatNumber(price))
+                                            .replace("<sizeToExpand>", Integer.toString(sizeToExpand))
+                                            .replace("<newSize>", Integer.toString(newSize))
+                                    );
+
+                                    Menu menu = new ConfirmationMenu(action, user, commandExpandConfirmation);
+
+                                    return true;
                                 } else {
                                     user.sendMessage(constants.commandCouldntModifyMoney);
                                 }

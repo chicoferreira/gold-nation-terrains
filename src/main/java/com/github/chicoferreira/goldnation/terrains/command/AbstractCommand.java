@@ -76,12 +76,12 @@ public abstract class AbstractCommand implements Command {
         return subcommands;
     }
 
-    public void setSubcommands(List<Command> subcommands) {
+    protected final void setSubcommands(List<Command> subcommands) {
         (this.subcommands = new ArrayList<>(Collections.singletonList(new DefaultHelpCommand(this, getPlugin())))).addAll(subcommands);
         this.subcommands.forEach(command -> command.setParent(this));
     }
 
-    public void setSubcommands(Command... subcommands) {
+    protected final void setSubcommands(Command... subcommands) {
         this.setSubcommands(Arrays.asList(subcommands));
     }
 

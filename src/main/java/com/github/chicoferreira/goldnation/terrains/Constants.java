@@ -90,7 +90,14 @@ public class Constants {
     public final String commandAcquireNotEnoughMoney;
     public final String commandAcquireSuccess;
     public final String commandAcquireSuccessBuyer;
-    public final double abandonPriceMultiplier = 0;
+    public final double abandonPriceMultiplier;
+    public final List<String> commandAbandonConfirmation;
+    public final List<String> commandAcquireConfirmation;
+    public final List<String> commandBuyConfirmation;
+    public final List<String> commandExpandConfirmation;
+    public final List<String> commandFriendAddConfirmation;
+    public final List<String> commandFriendRemoveConfirmation;
+    public final List<String> commandSellConfirmation;
 
     public Constants(Configuration configuration) {
         this.allowedWorld = configuration.getString("settings.allowed world");
@@ -157,6 +164,14 @@ public class Constants {
         this.commandAcquireNotEnoughMoney = translateColors(configuration.getString("commands.acquire.not enough money"));
         this.commandAcquireSuccess = translateColors(configuration.getString("commands.acquire.success"));
         this.commandAcquireSuccessBuyer = translateColors(configuration.getString("commands.acquire.success owner"));
+        this.abandonPriceMultiplier = configuration.getDouble("commands.abandon.price multiplier");
+        this.commandAbandonConfirmation = translateColors(configuration.getStringList("menu.confirmations.abandon"));
+        this.commandAcquireConfirmation = translateColors(configuration.getStringList("menu.confirmations.acquire"));
+        this.commandBuyConfirmation = translateColors(configuration.getStringList("menu.confirmations.buy"));
+        this.commandExpandConfirmation = translateColors(configuration.getStringList("menu.confirmations.expand"));
+        this.commandFriendAddConfirmation = translateColors(configuration.getStringList("menu.confirmations.friend add"));
+        this.commandFriendRemoveConfirmation = translateColors(configuration.getStringList("menu.confirmations.friend remove"));
+        this.commandSellConfirmation = translateColors(configuration.getStringList("menu.confirmations.sell"));
     }
 
     private String translateColors(String message) {

@@ -3,6 +3,9 @@ package com.github.chicoferreira.goldnation.terrains.commands;
 import com.github.chicoferreira.goldnation.terrains.Constants;
 import com.github.chicoferreira.goldnation.terrains.command.AbstractCommand;
 import com.github.chicoferreira.goldnation.terrains.command.context.CommandContexts;
+import com.github.chicoferreira.goldnation.terrains.inventory.Menu;
+import com.github.chicoferreira.goldnation.terrains.inventory.action.Action;
+import com.github.chicoferreira.goldnation.terrains.inventory.defaults.ConfirmationMenu;
 import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
 import com.github.chicoferreira.goldnation.terrains.terrain.Terrain;
 import com.github.chicoferreira.goldnation.terrains.user.User;
@@ -13,6 +16,8 @@ import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AcquireCommand extends AbstractCommand {
 
@@ -52,29 +57,41 @@ public class AcquireCommand extends AbstractCommand {
 
         BigDecimal userMoney = BigDecimal.valueOf(getPlugin().getBank().get(user));
 
-        int moneyComparation = sellPrice.compareTo(userMoney);
-        if (moneyComparation < 0) {
+        if (sellPrice.compareTo(userMoney) < 0) {
             user.sendMessage(constants.commandAcquireNotEnoughMoney.replace("<price>", formattedSellPrice));
             return false;
         }
 
         String lastOwner = terrain.getOwner();
 
-        getPlugin().getTerrainController().acquire(user, terrain);
-        user.sendMessage(constants.commandAcquireSuccess
-                .replace("<owner>", lastOwner)
-                .replace("<price>", formattedSellPrice)
+        Action action = actionEvent -> {
+            getPlugin().getTerrainController().acquire(user, terrain);
+            user.sendMessage(constants.commandAcquireSuccess
+                    .replace("<owner>", lastOwner)
+                    .replace("<price>", formattedSellPrice)
+            );
+
+            Player playerExact = Bukkit.getPlayerExact(lastOwner);
+            if (playerExact == null || !playerExact.isOnline()) {
+                return;
+            }
+            playerExact.sendMessage(constants.commandAcquireSuccessBuyer
+                    .replace("<buyer>", user.getName())
+                    .replace("<price>", formattedSellPrice)
+            );
+        };
+
+        List<String> commandAcquireConfirmation = new ArrayList<>(constants.commandAcquireConfirmation);
+        commandAcquireConfirmation.replaceAll(
+                s -> s.replace("<owner>", lastOwner)
+                        .replace("<price>", formattedSellPrice)
+                        .replace("<size>", Integer.toString(terrain.getSize())
+                        )
         );
 
-        Player playerExact = Bukkit.getPlayerExact(lastOwner);
-        if (playerExact == null || !playerExact.isOnline()) {
-            return true;
-        }
-        playerExact.sendMessage(constants.commandAcquireSuccessBuyer
-                .replace("<buyer>", user.getName())
-                .replace("<price>", formattedSellPrice)
-        );
+        Menu menu = new ConfirmationMenu(action, user, commandAcquireConfirmation);
 
+        user.openMenu(menu, plugin.getMenuBridge());
         return true;
     }
 

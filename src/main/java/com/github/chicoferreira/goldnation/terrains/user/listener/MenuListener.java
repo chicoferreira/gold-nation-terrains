@@ -36,11 +36,11 @@ public class MenuListener implements Listener {
         Menu menu = user.getOpenedMenu();
         if (menu == null || !menu.getTitle().equals(inventory.getTitle())) return;
 
+        event.setCancelled(true);
+
         Item item = menu.getItem(event.getSlot());
 
-        if (item == null) {
-            throw new IllegalStateException("Item is null on menu but exists on inventory.");
-        }
+        if (item == null) return;
 
         ActionEvent actionEvent = new ActionEvent(user, menu, item);
         item.getAction().accept(actionEvent);

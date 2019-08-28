@@ -4,6 +4,7 @@ import com.github.chicoferreira.goldnation.terrains.command.AbstractCommand;
 import com.github.chicoferreira.goldnation.terrains.command.context.CommandContexts;
 import com.github.chicoferreira.goldnation.terrains.command.parameter.Parameter;
 import com.github.chicoferreira.goldnation.terrains.command.variable.types.VariableTypes;
+import com.github.chicoferreira.goldnation.terrains.inventory.defaults.ListTerrainsMenu;
 import com.github.chicoferreira.goldnation.terrains.plugin.TerrainsPlugin;
 import com.github.chicoferreira.goldnation.terrains.terrain.Terrain;
 import com.github.chicoferreira.goldnation.terrains.user.User;
@@ -21,9 +22,15 @@ public class GoCommand extends AbstractCommand {
 
     @Override
     public boolean execute(User user, CommandContexts commandContexts) {
-        int index = (int) commandContexts.get("indice").getOrElse(1);
+        Object objectIndex = commandContexts.get("indice").getValue();
+        if (objectIndex == null) {
+            ListTerrainsMenu terrainsMenu = new ListTerrainsMenu(user, plugin);
+            user.openMenu(terrainsMenu, plugin.getMenuBridge());
+            return true;
+        }
+        int index = (int) objectIndex;
 
-        List<UUID> terrainList = user.getTerrainList();
+        List<UUID> terrainList = user.getTerrains();
         if (index - 1 < terrainList.size() && index - 1 >= 0) {
             UUID uuid = terrainList.get(index - 1);
             Terrain terrain = getPlugin().getTerrainStorage().get(uuid);

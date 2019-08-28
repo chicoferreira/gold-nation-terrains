@@ -23,12 +23,12 @@ public class ListTerrainCommand extends AbstractCommand {
     @Override
     public boolean execute(User user, CommandContexts commandContexts) {
         Constants constants = getPlugin().getConstants();
-        if (!user.getTerrainList().isEmpty()) {
+        if (!user.getTerrains().isEmpty()) {
             for (String string : constants.commandList) {
                 if (!string.equalsIgnoreCase("<terrains>")) {
                     user.sendMessage(string);
                 } else {
-                    List<UUID> terrainList = user.getTerrainList();
+                    List<UUID> terrainList = user.getTerrains();
                     for (int i = 0; i < terrainList.size(); i++) {
                         UUID uuid = terrainList.get(i);
                         Terrain terrain = getPlugin().getTerrainStorage().get(uuid);

@@ -50,13 +50,13 @@ public class UserStorage {
 
     public void addTerrain(String owner, Terrain terrain) {
         User user = get(owner).join();
-        user.getTerrainList().add(terrain.getUuid());
+        user.getTerrains().add(terrain.getUuid());
         this.save(user);
     }
 
     public void removeTerrain(String owner, Terrain terrain) {
         User user = get(owner).join();
-        user.getTerrainList().remove(terrain.getUuid());
+        user.getTerrains().remove(terrain.getUuid());
         this.save(user);
     }
 

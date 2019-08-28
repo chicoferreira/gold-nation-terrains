@@ -54,6 +54,7 @@ commands:
         verification: "&eDigite o comando novamente para abandonar o terreno."
         verification duration: 3000 # 3 seconds
         success: "&eAbandonado terreno com sucesso. Recebeu <received> coins. Você pode comprá-lo novamente se mudar de ideias."
+        price multiplier: 0.5 # 50%
     list:
         empty: "&cVocê não tem terrenos."
         success:
@@ -101,6 +102,19 @@ listener:
         load timeout: 200
     cannot place block: "&cVocê não pode colocar blocos no terreno de <owner>."
     cannot break block: "&cVocê não pode quebrar blocos do terreno de <owner>."
-
-
-
+menu:
+    confirmations:
+        abandon:
+            - "&eTexto de informação de confirmação."
+        acquire:
+            - "&eTexto de informação de confirmação."
+        buy:
+            - "&eTexto de informação de confirmação."
+        expand:
+            - "&eTexto de informação de confirmação."
+        friend add:
+            - "&eTexto de informação de confirmação."
+        friend remove:
+            - "&eTexto de informação de confirmação."
+        sell:
+            - "&eTexto de informação de confirmação."
